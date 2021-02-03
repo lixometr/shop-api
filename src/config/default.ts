@@ -1,13 +1,19 @@
+require('dotenv').config()
+
 import jwt from "./modules/jwt";
 import user from "./modules/user";
 import staticConf from "./modules/static";
-
-require('dotenv').config()
+import db from "./modules/db"
+import domain from "./modules/domain"
+import upload from "./modules/upload"
 
 export default {
     NODE_ENV: process.env.NODE_ENV,
     perPage: 10,
     static: staticConf,
     jwt,
-    user
+    user,
+    db,
+    domain,
+    upload
 }

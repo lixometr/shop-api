@@ -2,7 +2,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_ADMIN_KEY, ROLES_KEY } from 'src/constants';
-import { AdminRoles } from 'src/modules/userModule/userAdmin/userAdmin.types';
+import { AdminRoles } from 'src/modules/user-group/userAdmin/userAdmin.types';
 
 @Injectable()
 export class AdminRolesGuard implements CanActivate {

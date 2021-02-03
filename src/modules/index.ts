@@ -1,18 +1,22 @@
-export * from "./userModule/user"
-export * from "./userModule/userAdmin"
+export * from "./user-group/user"
+export * from "./user-group/userAdmin"
 export * from "./locale"
-export * from "./product-attribute"
-export * from "./attribute"
-export * from "./attribute-value"
+export * from "./product-group/product-attribute"
+export * from "./product-group/attribute"
+export * from "./product-group/attribute-value"
 
-export * from "src/modules/product-category/dto/create-product-category.dto"
-export * from "src/modules/product-category/dto/update-product-category.dto"
+export * from "src/modules/product-group/product-category/dto/create-product-category.dto"
+export * from "src/modules/product-group/product-category/dto/update-product-category.dto"
 
-export * from "./page"
-export * from "./page-template"
+export * from "./page-group/page"
+export * from "./page-group/page-template"
 
 
-export * from  "./product-category"
+export * from  "./product-group/product-category"
 
-export * from "./product-tag"
-export * from "./product"
+export * from "./product-group/product-tag"
+export * from "./product-group/product"
+
+export * from "./upload-group/upload"
+export * from "./upload-group/file"
+export * from "./upload-group/image"

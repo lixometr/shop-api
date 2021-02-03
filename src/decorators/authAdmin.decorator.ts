@@ -1,8 +1,8 @@
 
 import { applyDecorators, UseGuards } from '@nestjs/common';
 import { AdminRolesGuard } from 'src/guards/rolesAdmin.guard';
-import { JwtAuthAdminGuard } from 'src/modules/authModule/authAdmin/guards/jwt-authAdmin.guard';
-import { AdminRoles } from 'src/modules/userModule/userAdmin/userAdmin.types';
+import { JwtAuthAdminGuard } from 'src/modules/auth-group/authAdmin/guards/jwt-authAdmin.guard';
+import { AdminRoles } from 'src/modules/user-group/userAdmin/userAdmin.types';
 import { HasAdminRoles } from './role.decorator';
 
 export function AuthAdmin(...roles: AdminRoles[]) {
