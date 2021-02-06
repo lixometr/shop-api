@@ -8,13 +8,15 @@ export * from "./product-group/attribute-value"
 export * from "src/modules/product-group/product-category/dto/create-product-category.dto"
 export * from "src/modules/product-group/product-category/dto/update-product-category.dto"
 
-export * from "./page-group/page"
 export * from "./page-group/page-template"
+export * from "./page-group/page"
 
 
 export * from  "./product-group/product-category"
 
 export * from "./product-group/product-tag"
+export * from "./product-group/product-option"
+export * from "./product-group/currency"
 export * from "./product-group/product"
 
 export * from "./upload-group/upload"

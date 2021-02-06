@@ -1,6 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfig } from 'src/config';
-
+import { join } from "path"
+const migrationsPath = join('src', 'migrations')
 export const databaseProviders = [
     TypeOrmModule.forRoot({
         type: 'mysql',
@@ -13,7 +14,12 @@ export const databaseProviders = [
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}'
         ],
+        "migrationsTableName": "migration_table",
+        migrations: [migrationsPath],
         synchronize: true,
+        "cli": {
+            "migrationsDir": "src/migrations"
+        }
 
     }),
 ];

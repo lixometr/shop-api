@@ -12,7 +12,7 @@ export class EntityTranslationBlueprint {
     @ManyToOne(() => Locale, { nullable: false })
     locale: Locale;
 
-    @Column({ type: 'json', nullable: false })
+    @Column({ type: 'json', nullable: true })
     values: any;
 
 } 

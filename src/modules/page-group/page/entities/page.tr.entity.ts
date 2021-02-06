@@ -1,7 +1,6 @@
-import { EntityTranslationBlueprint } from "src/blueprints/translation.entity";
+import { EntityTranslationBlueprint } from "src/internal";
 import { LOCALE_REL_OPTIONS } from "src/constants";
-import { ID } from "src/internal";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {  Entity, ManyToOne } from "typeorm";
 import { Page } from "./page.entity";
 
 @Entity({})

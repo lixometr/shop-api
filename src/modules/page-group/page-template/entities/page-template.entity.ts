@@ -1,8 +1,7 @@
 import { EntityItemBlueprint } from 'src/internal';
-import { Product } from 'src/internal';
-import { Page } from 'src/modules/page-group/page/entities/page.entity';
+import { Page } from 'src/internal';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
-import { PageTemplateField } from './page-template-field.entity';
+import { PageTemplateField } from 'src/internal';
 
 @Entity()
 export class PageTemplate extends EntityItemBlueprint {

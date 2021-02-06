@@ -1,4 +1,4 @@
-import {  RequestPayload, DefaultRepository } from 'src/internal';
+import { RequestPayload, DefaultRepository } from 'src/internal';
 import { Attribute } from 'src/internal';
 import { ID } from 'src/types';
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
@@ -12,7 +12,10 @@ export class ProductRepository extends DefaultRepository<Product> {
             .leftJoinAndSelect('product.tags', '_tags')
             .leftJoinAndSelect('product.locale', '_locale')
             .leftJoinAndSelect('product.category', '_category')
+            .leftJoinAndSelect('product.defaultImage', '_defaultImage')
+            .leftJoinAndSelect('product.images', '_images')
             .leftJoinAndSelect('product.attributes', '_attributes')
+            .leftJoinAndSelect('product.prices', '_prices')
             .leftJoinAndSelect('_attributes.attr', '_attr')
             .leftJoinAndSelect('_attr.locale', '_attrLocale')
             .leftJoinAndSelect('_attributes.attrValues', '_attrValues')
@@ -29,14 +32,19 @@ export class ProductRepository extends DefaultRepository<Product> {
         this.populate(query, payload)
         return await this.findMany(query, payload)
     }
-    async findWithFilters({query, availableFilters}: {query: SelectQueryBuilder<Product>, availableFilters?: Attribute[]}, payload: RequestPayload) {
+    async findWithFilters({ query, availableFilters }: { query: SelectQueryBuilder<Product>, availableFilters?: Attribute[] }, payload: RequestPayload) {
         // const query = this.createQueryBuilder('product')
         //     .leftJoinAndSelect("product.attributes", "attribute")
         //     .leftJoinAndSelect('attribute.attr', 'attr')
         //     .leftJoinAndSelect('attribute.attrValues', 'attrValue')
         // .where('attr.slug = :attrSlug AND attrValue.slug IN (:...values)', {attrSlug: 'color', values: ['s']})
         this.populate(query, payload)
-        const items = await query.getMany()
+        let items = await query.getMany()
+        const currency = payload.getCurrency()
+        items = items.map(item => {
+            item.transformCurrency(currency.id)
+            return item
+        })
         const filters = payload.getFilters()
         const filteredItems = filterItems(items, filters)
         const withPagination = this.paginate(filteredItems, payload)
@@ -49,12 +57,12 @@ export class ProductRepository extends DefaultRepository<Product> {
     async findByCategoryIdWithFilters({ id }, payload: RequestPayload) {
         const query = this.QFindByCategoryId({ id }, payload)
         // can add available filters
-        return this.findWithFilters({query}, payload)
+        return this.findWithFilters({ query }, payload)
     }
 
     async findAllWithFilters({ }, payload: RequestPayload) {
         const query = this.createQueryBuilder('product')
-        return this.findWithFilters({query}, payload)
+        return this.findWithFilters({ query }, payload)
     }
 
 }

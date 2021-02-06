@@ -6,7 +6,7 @@ import { Exclude } from "class-transformer";
 import { EntityBaseMetadata, RequestPayload } from "src/internal";
 import { EntityBase, EntityDefaultBlueprint, EntityItemBlueprint } from "./index"
 export interface EntityLocale extends EntityBase {
-    translate(localeId: ID, defaultLocaleId: ID, recursive?: boolean): void
+    translate(localeId: ID, recursive?: boolean): void
     _canTranslate: true
 }
 
@@ -16,12 +16,9 @@ const mixin = (Base) => class EntityLocale extends Base {
     constructor() {
         super()
     }
-    translate(localeId: ID, defaultLocaleId?: ID, recursive: boolean = true): void {
+    translate(localeId: ID,  recursive: boolean = true): void {
         const _translate = (arr: Array<any>): object => {
             let localeItemIdx = arr.findIndex(item => item.localeId === localeId)
-            if (localeItemIdx < 0) {
-                localeItemIdx = arr.findIndex(item => item.localeId === defaultLocaleId)
-            }
             if (localeItemIdx < 0) {
                 return {}
             }
@@ -58,10 +55,9 @@ const mixin = (Base) => class EntityLocale extends Base {
     }
     async serialize(metadata: EntityBaseMetadata, payload: RequestPayload): Promise<this> {
         if (metadata.groups.includes(SerializeGroup.Translate)) {
-            const localeId = payload.request.settings.locale.id
-            const defaultLocaleId = payload.request.settings.defaultLocale.id
-            if (localeId || defaultLocaleId) {
-                this.translate(localeId, defaultLocaleId)
+            const localeId = payload.getLocale().id
+            if (localeId ) {
+                this.translate(localeId)
             }
         }
         return super.serialize(metadata, payload)

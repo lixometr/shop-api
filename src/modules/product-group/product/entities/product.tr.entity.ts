@@ -1,7 +1,7 @@
-import { EntityTranslationBlueprint } from "src/blueprints/translation.entity";
+import { EntityTranslationBlueprint } from "src/internal";
 import { ID } from "src/internal";
 import {  Entity, ManyToOne,  } from "typeorm";
-import { Product } from "./product.entity";
+import { Product } from "src/internal";
 
 @Entity({})
 export class ProductToLocale extends EntityTranslationBlueprint {

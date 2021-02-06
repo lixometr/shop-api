@@ -39,11 +39,11 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
       #MYSQL_ROOT_HOST: '%'
     volumes:
-      - data:/var/lib/mysql
+      - data1:/var/lib/mysql
     networks:
       - backend
 networks:
   backend: 
 volumes: 
-  data: {}
+  data1: {}
   notused: 

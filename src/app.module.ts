@@ -18,7 +18,7 @@ import { AuthGroupModule } from './modules/auth-group/auth-group.module';
 import { ProductGroupModule } from './modules/product-group/product-group.module';
 import { PageGroupModule } from './modules/page-group/page-group.module';
 @Module({
-  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule,  UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule, ],
+  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule,  UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule ],
   controllers: [AppController],
   providers: [
     { provide: APP_FILTER, useClass: DatabaseFilter },

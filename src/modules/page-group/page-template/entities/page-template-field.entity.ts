@@ -1,10 +1,7 @@
-import { EntityDefaultBlueprint } from 'src/blueprints';
+import { EntityDefaultBlueprint } from 'src/internal';
 import { DELETE_OPTIONS } from 'src/constants';
-import { EntityItemBlueprint } from 'src/internal';
-import { Product } from 'src/internal';
-import { Page } from 'src/modules/page-group/page/entities/page.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, ManyToOne } from 'typeorm';
-import { PageTemplate } from './page-template.entity';
+import { PageTemplate } from 'src/internal';
 
 @Entity()
 export class PageTemplateField extends EntityDefaultBlueprint {

@@ -5,6 +5,7 @@ import * as _ from "lodash"
 import { Reflector } from '@nestjs/core';
 import { CLASS_SERIALIZER_OPTIONS } from "@nestjs/common/serializer/class-serializer.constants"
 import { EntityBase, NoAuthRequest } from 'src/internal';
+import { RequestPayload } from 'src/internal';
 
 @Injectable()
 export class SerializeInterceptor implements NestInterceptor {
@@ -18,7 +19,7 @@ export class SerializeInterceptor implements NestInterceptor {
     const groups = options.groups || []
     return next.handle().pipe(concatMap(async (data: EntityBase) => {
       if (data instanceof EntityBase) {
-        return await data.serialize({ groups }, { request: req })
+        return await data.serialize({ groups }, new RequestPayload({request: req}))
       }
       return data
     }))

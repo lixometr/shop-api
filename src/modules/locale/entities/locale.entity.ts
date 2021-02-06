@@ -4,5 +4,6 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 @Entity()
 export class Locale extends EntityItemBlueprint{
     
-    
+    @Column()
+    name: string;
 }

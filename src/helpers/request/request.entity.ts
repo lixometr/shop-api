@@ -1,6 +1,7 @@
 import { AppConfig } from "src/config";
 import { FILTER_PARAM } from "src/constants";
 import { AppRequest, PaginationDto, ProductFilters, ProductFiltersDto } from "src/internal";
+import { Currency, Locale } from "src/internal";
 
 export interface RequestPayloadProps {
     request: AppRequest,
@@ -55,6 +56,18 @@ export class RequestPayload {
         }
     }
     getQuery(): { [key: string]: any } {
-        return this.request.query || {}
+        return this.request.query
     }
+    getSettings() {
+        return this.request.settings 
+    }
+    getLocale(): Locale {
+        const { locale } = this.getSettings()
+        return locale
+    }
+    getCurrency(): Currency {
+        const { currency } = this.getSettings()
+        return currency
+    }
+
 }

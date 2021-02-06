@@ -1,5 +1,6 @@
 import { Inject, Injectable, Optional, Scope } from '@nestjs/common';
-import { DefaultRepository, EntityBase, ID, PaginationResponse, PaginationDto, SLUG } from 'src/internal';
+import { DefaultRepository, ID, PaginationResponse, PaginationDto, SLUG } from 'src/internal';
+import { EntityBase } from "./base.entity"
 import { DeleteResult, } from 'typeorm';
 import _ from "lodash"
 import { RequestPayload } from 'src/internal';
@@ -47,7 +48,7 @@ export class ServiceBlueprint<T extends EntityBase>{
 
 
     async updateById({ id, data }: { id: ID, data: any }, payload: RequestPayload): Promise<T> {
-        await this.event.emitAsync(`${this.name}.${EventName.beforeUpdate}`, { data, payload })
+        await this.event.emitAsync(`${this.name}.${EventName.beforeUpdate}`, { data, id, payload })
         const item = await this.repository.findById({
             id
         });
