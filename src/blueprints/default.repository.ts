@@ -1,13 +1,22 @@
 import { AppConfig } from 'src/config';
 import { EntityBase, PaginationResponse, PaginationDto } from 'src/internal';
 import { ID, SLUG } from 'src/internal';
-import { FindOptionsUtils, QueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindOptionsUtils, Like, QueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
 import { EntityDefaultBlueprint, RequestPayload } from 'src/internal';
 
 export class DefaultRepository<T extends EntityBase> extends Repository<T> {
+    public name = 'item'
     populate(query: SelectQueryBuilder<T>, requestPayload: RequestPayload) {
         FindOptionsUtils.joinEagerRelations(query, query.alias, query.expressionMap.mainAlias!.metadata)
         return query
+    }
+    async search({ name }: { name: string }, payload: RequestPayload) {
+        const localeId = payload.getLocale().id
+        const query = this.createQueryBuilder(this.name)
+            .leftJoinAndSelect('item.locale', 'locale')
+            .where('locale.name like :name AND locale.localeId = :localeId', { name: `%${name}%`, localeId })
+        this.populate(query, payload)
+        return this.findMany(query, payload)
     }
     async findByName({ name }: { name: string }): Promise<T> {
         return await this.findOne({ where: { name } })
@@ -43,7 +52,7 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
     // With Query Builder
     async findMany(queryBuilder: SelectQueryBuilder<T>, payload: RequestPayload): Promise<PaginationResponse<T>> {
         const pagination = payload.getPagination()
-        const orderBy = payload.getOrderBy()
+        const orderBy = payload.getOrderBy(this.name)
         const perPage = pagination.perPage
         const page = pagination.page
         const skip = perPage * page;

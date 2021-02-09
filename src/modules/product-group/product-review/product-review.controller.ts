@@ -5,17 +5,12 @@ import { UpdateProductReviewDto } from './dto/update-product-review.dto';
 import { GetRequestPayload, ID, RequestPayload } from 'src/internal';
 import { AuthAdmin } from 'src/internal';
 import { SerializeGroup } from 'src/types';
+import { ControllerBlueprint } from 'src/blueprints/controller';
 
 @Controller('product-review')
-export class ProductReviewController {
-  constructor(private readonly productReviewService: ProductReviewService) { }
+export class ProductReviewController extends ControllerBlueprint{
+  constructor(private readonly productReviewService: ProductReviewService) {super(productReviewService) }
 
-  @SerializeOptions({ groups: [SerializeGroup.Info] })
-  @AuthAdmin()
-  @Get()
-  async findAll(@GetRequestPayload() payload: RequestPayload) {
-    return this.productReviewService.findAll({}, payload)
-  }
 
   @SerializeOptions({ groups: [SerializeGroup.Full] })
   @AuthAdmin()
@@ -23,13 +18,6 @@ export class ProductReviewController {
   async create(@Body() data: CreateProductReviewDto, @GetRequestPayload() payload: RequestPayload) {
     return this.productReviewService.create({ data }, payload)
   }
-
-  @SerializeOptions({ groups: [SerializeGroup.Full] })
-  @Get('id/:id')
-  findById(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
-    return this.productReviewService.findById({ id }, payload)
-  }
-
   @SerializeOptions({ groups: [SerializeGroup.Full] })
   @AuthAdmin()
   @Put('/id/:id')
@@ -37,11 +25,30 @@ export class ProductReviewController {
     return this.productReviewService.updateById({ data, id }, payload)
   }
 
-  @AuthAdmin()
-  @Delete('/id/:id')
-  async delete(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
-    return this.productReviewService.removeById({ id }, payload)
-  }
+  // @SerializeOptions({ groups: [SerializeGroup.Info] })
+  // @AuthAdmin()
+  // @Get()
+  // async findAll(@GetRequestPayload() payload: RequestPayload) {
+  //   return this.productReviewService.findAll({}, payload)
+  // }
+
+  // @SerializeOptions({ groups: [SerializeGroup.Full] })
+  // @Get('id/:id')
+  // findById(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
+  //   return this.productReviewService.findById({ id }, payload)
+  // }
+
+  
+
+  // @AuthAdmin()
+  // @Delete('/id/:id')
+  // async delete(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
+  //   return this.productReviewService.removeById({ id }, payload)
+  // }
+
+  findBySlug() { return null }
+  findBySlugAdmin() { return null }
+
 
 
 }

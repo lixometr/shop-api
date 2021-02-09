@@ -13,6 +13,8 @@ export * from "./page-group/page"
 export * from "./page-group/section"
 export * from "./page-group/section-page"
 
+export * from "./promocode"
+
 
 export * from  "./product-group/product-category"
 

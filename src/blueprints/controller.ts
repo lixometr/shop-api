@@ -14,7 +14,7 @@ import { ServiceBlueprint } from './service';
 
 @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
 export class ControllerBlueprint {
-  constructor(private readonly service: ServiceBlueprint<any>) {}
+  constructor(private readonly service: ServiceBlueprint<any>) { }
 
   @AuthAdmin()
   @Post()
@@ -32,6 +32,11 @@ export class ControllerBlueprint {
   ): Promise<any> {
     return await this.service.findAll({}, requestPayload);
   }
+  @Get('search/:name')
+  async search(@Param('name') name: string, @GetRequestPayload() requestPayload: RequestPayload): Promise<any> {
+    return this.service.search({ name }, requestPayload)
+  }
+
   @SerializeOptions({ groups: [SerializeGroup.Full, SerializeGroup.Translate] })
   @Get('id/:id')
   async findById(

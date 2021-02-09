@@ -8,49 +8,54 @@ import { ProductVariationLocale } from "./product-variation.tr.entity";
 import { ProductVariationPrice } from "./product-variation.price.entity";
 import { transformCurrency } from "../../product.helpers";
 import { Expose } from "class-transformer";
+import { Image } from "src/internal";
 
 
 @Entity()
 export class ProductVariation extends EntityLocaleDefaultBlueprint {
 
-    @Column()
-    productId: ID
+  @Column()
+  productId: ID
 
-    @ManyToOne(() => Product, product => product.variations, DELETE_OPTIONS)
-    product: Product
+  @ManyToOne(() => Product, product => product.variations, DELETE_OPTIONS)
+  product: Product
 
-    @OneToMany(() => ProductVariationAttributes, productVariationAttributes => productVariationAttributes.productVariation, { eager: true, cascade: true })
-    attributes: ProductVariationAttributes[]
-   
-    @OneToMany(() => ProductVariationLocale, (ProductVariationLocale) => ProductVariationLocale.item, { cascade: true, eager: true })
-    locale: ProductVariationLocale[];
+  @OneToMany(() => ProductVariationAttributes, productVariationAttributes => productVariationAttributes.productVariation, { eager: true, cascade: true })
+  attributes: ProductVariationAttributes[]
 
-    name: string;
+  @OneToMany(() => ProductVariationLocale, (ProductVariationLocale) => ProductVariationLocale.item, { cascade: true, eager: true })
+  locale: ProductVariationLocale[];
 
-    description: string;
+  name: string;
 
-    seo: EntitySeo;
+  description: string;
 
-    @OneToMany(() => ProductVariationPrice, (productVariationPrice) => productVariationPrice.item, { cascade: true, eager: true })
-    prices: ProductVariationPrice[];
-  
-    price: number;
-  
-    oldPrice: number;
-  
-    sale: number;
+  seo: EntitySeo;
 
-    @Column({nullable: true})
-    sku: string;
+  @OneToMany(() => ProductVariationPrice, (productVariationPrice) => productVariationPrice.item, { cascade: true, eager: true })
+  prices: ProductVariationPrice[];
 
-    transformCurrency(currencyId: ID) {
-        return transformCurrency(this, currencyId, 'prices');
-      }
-      async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-        if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
-          const currency = payload.getCurrency();
-          this.transformCurrency(currency.id);
-        }
-        return super.serialize(metadata, payload);
-      }
+  price: number;
+
+  oldPrice: number;
+
+  sale: number;
+
+  @Column({ nullable: true })
+  sku: string;
+
+  defaultImage: Image
+
+  images: Image[]
+
+  transformCurrency(currencyId: ID) {
+    return transformCurrency(this, currencyId, 'prices');
+  }
+  async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
+    if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
+      const currency = payload.getCurrency();
+      this.transformCurrency(currency.id);
+    }
+    return super.serialize(metadata, payload);
+  }
 }

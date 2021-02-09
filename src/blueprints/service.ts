@@ -19,7 +19,9 @@ export class ServiceBlueprint<T extends EntityBase>{
         await this.event.emitAsync(`${this.name}.${EventName.afterCreate}`, { result, data, payload })
         return result
     }
-
+    async search({ name }, payload: RequestPayload) {
+        return this.repository.search({ name }, payload)
+    }
     async findAll({ }, payload: RequestPayload): Promise<PaginationResponse<T>> {
         await this.event.emitAsync(`${this.name}.${EventName.beforeFindAll}`, { payload })
 
