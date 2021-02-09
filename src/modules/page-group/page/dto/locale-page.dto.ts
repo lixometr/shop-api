@@ -1,22 +1,27 @@
 import { Type } from "class-transformer";
-import { IsInt, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
-import { ID } from "src/internal";
+import { IsIn, IsInt, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ID, SeoDto } from "src/internal";
 
-class Values {
+
+export class LocalePageDto {
+
+    @IsOptional()
+    @IsInt()
+    id: ID
+
     @IsString()
     name: string;
 
     @IsOptional()
     @IsObject()
-    values: object;
-}
-export class LocalePageDto {
-
-    @ValidateNested({ each: true })
-    @Type(() => Values)
-    values: Values;
+    values: any;
 
     @IsInt()
     localeId: ID;
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => SeoDto)
+    seo: SeoDto
 
 }

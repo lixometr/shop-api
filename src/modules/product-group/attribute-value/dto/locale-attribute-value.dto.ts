@@ -1,19 +1,16 @@
 import { Type } from "class-transformer";
-import { IsInt, IsObject, IsString, ValidateNested } from "class-validator";
+import { IsInt, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { ID } from "src/internal";
 
-class Values {
+
+export class LocaleAttributeValueDto {
+    @IsOptional()
+    @IsInt()
+    id: ID
+    
     @IsString()
     name: string;
     
-}
-export class LocaleAttributeValueDto {
-    
-    @IsObject()
-    @ValidateNested({ each: true })
-    @Type(() => Values)
-    values: Values;
-
     @IsInt()
     localeId: ID;
 

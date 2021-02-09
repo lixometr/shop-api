@@ -24,11 +24,7 @@ export class ServiceBlueprint<T extends EntityBase>{
         await this.event.emitAsync(`${this.name}.${EventName.beforeFindAll}`, { payload })
 
         const result = await this.findWithPagination({
-            query: {
-                order: {
-                    createdAt: "DESC"
-                }
-            }
+            query: {}
         }, payload)
         await this.event.emitAsync(`${this.name}.${EventName.afterFindAll}`, { result, payload })
         return result

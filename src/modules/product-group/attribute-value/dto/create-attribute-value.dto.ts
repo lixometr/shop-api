@@ -1,6 +1,8 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsNotEmptyObject, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmptyObject, IsString, ValidateNested } from "class-validator";
+import { IdDto } from "src/helpers";
 import { UpdateAttributeDto } from "src/internal";
+import { ID } from "src/internal";
 import { LocaleAttributeValueDto } from "./locale-attribute-value.dto";
 
 export class CreateAttributeValueDto {
@@ -13,9 +15,11 @@ export class CreateAttributeValueDto {
     @Type(() => LocaleAttributeValueDto)
     locale: LocaleAttributeValueDto[];
     
-    @IsNotEmptyObject()
-    @ValidateNested()
-    @Type(() => UpdateAttributeDto)
-    attribute: UpdateAttributeDto
+    // @IsNotEmptyObject()
+    // @ValidateNested()
+    // @Type(() => IdDto)
+    // attribute: IdDto
 
+    @IsInt()
+    attributeId: ID
 }

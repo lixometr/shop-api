@@ -8,5 +8,8 @@ export class AttributeLocale extends EntityTranslationBlueprint{
 
     @ManyToOne(() => Attribute, attribute => attribute.locale, LOCALE_REL_OPTIONS)
     item: Attribute;
-
+    
+    @Column()
+    name: string;
+   
 }

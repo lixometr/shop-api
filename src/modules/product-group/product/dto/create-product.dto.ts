@@ -1,12 +1,11 @@
 import { Type } from 'class-transformer';
 import { IsString, IsInt, IsOptional, IsArray, ValidateNested, IsEnum, ArrayNotEmpty } from 'class-validator';
-import { UpdateProductAttributeDto } from 'src/modules/product-group/product-attribute/dto/update-product-attribute.dto';
-import { UpdateProductCategoryDto } from 'src/modules/product-group/product-category/dto/update-product-category.dto';
-import { UpdateProductTagDto } from 'src/modules/product-group/product-tag/dto/update-product-tag.dto';
-import { UpdateImageDto } from 'src/modules/upload-group/image/dto/update-image.dto';
+import { IdDto } from 'src/internal';
+import { CreateProductAttributeDto } from 'src/internal';
 import { CreateProductOptionDto } from '../../product-option/dto/create-product-option.dto';
-import { ProductStatus } from '../product.types';
-import { ProductPriceDto } from './create-product-price.dto';
+import { CreateProductVariationDto } from '../../product-variation/dto/create-product-variation.dto';
+import { ProductStatus, ProductType } from '../product.types';
+import { CreateProductPriceDto } from './create-product-price.dto';
 import { LocaleProductDto } from './locale-product.dto';
 export class CreateProductDto {
 
@@ -15,33 +14,33 @@ export class CreateProductDto {
     @ValidateNested({ each: true })
     @Type(() => LocaleProductDto)
     locale: LocaleProductDto[];
-    
+
 
     @IsString()
     slug: string;
-    
+
 
     @ArrayNotEmpty()
     @IsArray()
-    @ValidateNested({each: true})
-    @Type(() => ProductPriceDto)
-    prices: ProductPriceDto[];
+    @ValidateNested({ each: true })
+    @Type(() => CreateProductPriceDto)
+    prices: CreateProductPriceDto[];
 
     @IsOptional()
     @IsArray()
-    @ValidateNested({each: true})
+    @ValidateNested({ each: true })
     @Type(() => CreateProductOptionDto)
     options: CreateProductOptionDto[]
-  
-    @IsOptional()
-    @ValidateNested()
-    @Type(() => UpdateImageDto)
-    defaultImage: UpdateImageDto
 
     @IsOptional()
-    @ValidateNested({each: true})
-    @Type(() => UpdateImageDto)
-    images: UpdateImageDto[]
+    @ValidateNested()
+    @Type(() => IdDto)
+    defaultImage: IdDto
+
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => IdDto)
+    images: IdDto[]
 
     @IsOptional()
     @IsEnum(ProductStatus)
@@ -49,17 +48,35 @@ export class CreateProductDto {
 
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => UpdateProductAttributeDto)
-    attributes: UpdateProductAttributeDto[]
+    @Type(() => CreateProductAttributeDto)
+    attributes: CreateProductAttributeDto[]
 
 
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => UpdateProductTagDto)
-    tags: UpdateProductTagDto[]
+    @Type(() => IdDto)
+    tags: IdDto[]
 
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => UpdateProductCategoryDto)
-    category: UpdateProductCategoryDto[]
+    @Type(() => IdDto)
+    category: IdDto[]
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number;
+
+    @IsOptional()
+    @IsEnum(ProductType)
+    type: ProductType
+
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateProductVariationDto)
+    variations: CreateProductVariationDto[]
+
+
+    @IsString()
+    sku: string;
 }

@@ -1,4 +1,4 @@
-import { EntityLocaleItemBlueprint, Product, ProductCategoryLocale } from "src/internal";
+import { EntityLocaleItemBlueprint, EntitySeo, Product, ProductCategoryLocale } from "src/internal";
 import { ID } from "src/internal";
 import { Column, Entity, ManyToMany, OneToMany, Tree, TreeChildren, TreeParent } from "typeorm";
 
@@ -6,23 +6,23 @@ import { Column, Entity, ManyToMany, OneToMany, Tree, TreeChildren, TreeParent }
 @Tree("materialized-path")
 export class ProductCategory extends EntityLocaleItemBlueprint {
 
-    @Column()
-    name: string;
 
-    @TreeChildren({cascade: true})
+    @TreeChildren({ cascade: true })
     children: ProductCategory[];
 
-    @Column({nullable: true, })
+    @Column({ nullable: true, })
     parentId: ID;
 
     @TreeParent()
     parent: ProductCategory;
 
-    @ManyToMany(() => Product, product => product.category )
+    @ManyToMany(() => Product, product => product.category)
     products: Product[]
 
     @OneToMany(() => ProductCategoryLocale, catLocale => catLocale.item, { cascade: true, eager: true })
     locale: ProductCategoryLocale[];
+    name: string;
 
+   
 
 }

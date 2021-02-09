@@ -1,17 +1,21 @@
 import { Type } from "class-transformer";
-import { IsInt, IsString, ValidateNested } from "class-validator";
-import { ID } from "src/internal";
+import { IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ID, SeoDto } from "src/internal";
 
-class Values {
-    @IsString()
-    name: string;
-}
 export class LocaleProductCategoryDto {
     
-    @ValidateNested({ each: true })
-    @Type(() => Values)
-    values: Values;
+    @IsOptional()
+    @IsInt()
+    id: ID;
+
+    @IsString()
+    name: string;
+    
     @IsInt()
     localeId: ID;
 
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => SeoDto)
+    seo: SeoDto
 }

@@ -1,7 +1,11 @@
 import {  IsInt, IsNumber, IsOptional } from "class-validator";
 import { ID } from "src/types";
 
-export class ProductPriceDto {
+export class CreateProductPriceDto {
+    @IsOptional()
+    @IsInt()
+    id: ID;
+    
     @IsInt()
     currencyId: ID;
 
@@ -15,4 +19,6 @@ export class ProductPriceDto {
     @IsOptional()
     @IsNumber()
     sale: number;
+
+    
 }

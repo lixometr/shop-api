@@ -6,7 +6,7 @@ import { AttributeValue } from "src/modules/product-group/attribute-value";
 @Entity()
 export class ProductAttribute extends EntityDefaultBlueprint {
 
-    @ManyToOne(() => Attribute, attr => attr.attribute, { ...DELETE_OPTIONS, cascade: CASCADE_NOT_INSERT, eager: true })
+    @ManyToOne(() => Attribute, attr => attr.productAttribute, { ...DELETE_OPTIONS, cascade: CASCADE_NOT_INSERT, eager: true })
     attr: Attribute
 
     @ManyToMany(() => AttributeValue, attrValue => attrValue.attribute, { ...DELETE_OPTIONS, cascade: CASCADE_NOT_INSERT, eager: true })

@@ -5,7 +5,5 @@ import { CreateCurrencyDto } from './create-currency.dto';
 
 export class UpdateCurrencyDto extends PartialType(CreateCurrencyDto) {
     
-    @IsOptional()
-    @IsInt()
-    id: ID;
+ 
 }

@@ -1,10 +1,14 @@
 import { AppConfig } from 'src/config';
 import { EntityBase, PaginationResponse, PaginationDto } from 'src/internal';
 import { ID, SLUG } from 'src/internal';
-import { QueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindOptionsUtils, QueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
 import { EntityDefaultBlueprint, RequestPayload } from 'src/internal';
 
 export class DefaultRepository<T extends EntityBase> extends Repository<T> {
+    populate(query: SelectQueryBuilder<T>, requestPayload: RequestPayload) {
+        FindOptionsUtils.joinEagerRelations(query, query.alias, query.expressionMap.mainAlias!.metadata)
+        return query
+    }
     async findByName({ name }: { name: string }): Promise<T> {
         return await this.findOne({ where: { name } })
     }
@@ -18,12 +22,14 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
     // With Object
     async findWithPagination(query: object, payload: RequestPayload): Promise<PaginationResponse<T>> {
         const pagination = payload.getPagination()
+        const orderBy: any = payload.getOrderBy()
         const perPage = pagination.perPage
         const page = pagination.page
         const skip = perPage * page;
-        const items = await this.find({ ...query, skip, take: perPage })
+
+        const items = await this.find({ ...query, skip, take: perPage, order: { ...orderBy } })
         const totalItems = await this.count(query)
-        const totalPages = Math.ceil(totalItems / perPage);
+        const totalPages = Math.ceil(totalItems / Math.abs(perPage));
         return new PaginationResponse({
             items,
             info: {
@@ -37,12 +43,17 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
     // With Query Builder
     async findMany(queryBuilder: SelectQueryBuilder<T>, payload: RequestPayload): Promise<PaginationResponse<T>> {
         const pagination = payload.getPagination()
+        const orderBy = payload.getOrderBy()
         const perPage = pagination.perPage
         const page = pagination.page
         const skip = perPage * page;
+        queryBuilder.orderBy(orderBy)
         const items = await queryBuilder.take(perPage).skip(skip).getMany()
         const totalItems = await queryBuilder.getCount()
-        const totalPages = Math.ceil(totalItems / perPage);
+        let totalPages = Math.ceil(totalItems / perPage);
+        if (perPage < 0) {
+            totalPages = 1
+        }
         return new PaginationResponse({
             items,
             info: {
@@ -62,7 +73,8 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
         const end = start + perPage
         const slicedItems = items.slice(start, end)
         const totalItems = items.length
-        const totalPages = Math.ceil(totalItems / perPage)
+        let totalPages = Math.ceil(totalItems / perPage)
+        if (perPage < 0) totalPages = 1
         return new PaginationResponse({
             items: slicedItems,
             info: {

@@ -6,6 +6,7 @@ import { GetRequestPayload, ID, RequestPayload } from 'src/internal';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductFiltersResponse } from 'src/internal';
 import { SerializeGroup } from 'src/types';
+import { AuthAdmin } from 'src/internal';
 
 @Controller('product')
 export class ProductController extends ControllerBlueprint {
@@ -15,10 +16,15 @@ export class ProductController extends ControllerBlueprint {
   findAll(@GetRequestPayload() requestPayload: RequestPayload): Promise<ProductFiltersResponse> {
     return this.productService.findAllWithFilters({}, requestPayload)
   }
+
+  @AuthAdmin()
+  @SerializeOptions({groups: [SerializeGroup.Full]})
   @Post()
   async create(@Body() product: CreateProductDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return super.create(product, requestPayload)
   }
+
+  @AuthAdmin()
   @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Translate]})
   @Put('id/:id')
   update(@Param('id') id: ID, @Body() updateDto: UpdateProductDto) {

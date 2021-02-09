@@ -1,6 +1,7 @@
 import { Exclude } from "class-transformer";
 import { EntityDefaultBlueprint } from "src/internal";
-import { Column, Entity } from "typeorm";
+import { ProductReview } from "src/internal";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Roles } from "../user.types";
 
 @Entity()
@@ -33,6 +34,9 @@ export class User extends EntityDefaultBlueprint{
     @Exclude()
     @Column({type: 'varchar', default: Roles.USER})
     role?: Roles;
+
+    @OneToMany(() => ProductReview, productReview => productReview.user)
+    reviews: ProductReview
 }
 
 /*

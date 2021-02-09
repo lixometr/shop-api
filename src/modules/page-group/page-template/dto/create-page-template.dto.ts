@@ -1,7 +1,14 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsBoolean, IsIn, IsInt, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ID } from "src/types";
+import { LocalePageTemplateDto } from "./locale-page-template.dto";
 
-class PageTemplateField {
+export class PageTemplateFieldDto {
+
+    @IsOptional()
+    @IsInt()
+    id: ID
+
     @IsString()
     name: string;
 
@@ -19,21 +26,28 @@ class PageTemplateField {
     comment: string;
 
     @IsOptional()
+    @IsObject()
     settings: any
 
 }
 
 export class CreatePageTemplateDto {
 
-    @IsString()
-    name: string;
-
+  
     @IsString()
     slug: string;
 
+    @IsOptional()
     @IsArray()
     @ValidateNested({each: true})
-    @Type(() => PageTemplateField)
-    fields: PageTemplateField[]
+    @Type(() => PageTemplateFieldDto)
+    fields: PageTemplateFieldDto[]
+
+    @IsArray()
+    @ArrayNotEmpty()
+    @ValidateNested({ each: true })
+    @Type(() => LocalePageTemplateDto)
+    locale: LocalePageTemplateDto[]
+
 
 }

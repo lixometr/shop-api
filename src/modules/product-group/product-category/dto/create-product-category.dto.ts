@@ -1,6 +1,8 @@
 import { Type } from "class-transformer";
 import { IsArray, IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
-import { UpdateProductCategoryDto } from "../../../index";
+import { IdDto } from "src/helpers";
+import { SeoDto } from "src/internal";
+import { ID } from "src/types";
 import { LocaleProductCategoryDto } from "./locale-product-category.dto";
 
 export class CreateProductCategoryDto {
@@ -19,6 +21,7 @@ export class CreateProductCategoryDto {
     children: CreateProductCategoryDto[];
 
     @IsOptional()
-    parent: UpdateProductCategoryDto;
+    parent: IdDto;
+
 
 }

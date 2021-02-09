@@ -3,7 +3,7 @@ import { ProductCategoryService } from './product-category.service';
 import { CreateProductCategoryDto } from './dto/create-product-category.dto';
 import { UpdateProductCategoryDto } from './dto/update-product-category.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
-import { GetRequestPayload, ID, SerializeGroup } from 'src/internal';
+import { AuthAdmin, GetRequestPayload, ID, SerializeGroup } from 'src/internal';
 import { ProductService } from '../product/product.service';
 import { AppRequest, NoAuthRequest } from 'src/internal';
 import { RequestPayload } from 'src/helpers';
@@ -14,11 +14,14 @@ export class ProductCategoryController extends ControllerBlueprint {
     private productService: ProductService
   ) { super(itemService) }
 
+  @AuthAdmin()
   @Post()
   async create(@Body() data: CreateProductCategoryDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.create({ data }, requestPayload)
   }
-  @Put()
+  
+  @AuthAdmin()
+  @Put('id/:id')
   async update(@Param('id', new ParseIntPipe()) id: ID, @Body() data: UpdateProductCategoryDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return super.update(id, data, requestPayload)
   }

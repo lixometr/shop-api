@@ -19,7 +19,7 @@ export class AdminRolesGuard implements CanActivate {
         }
 
         const { user } = context.switchToHttp().getRequest();
-
+    
         return requiredRoles.some((role) => user?.role?.indexOf(role) > -1);
     }
 }

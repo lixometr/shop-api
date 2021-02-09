@@ -9,20 +9,21 @@ export interface EntityLocale extends EntityBase {
     translate(localeId: ID, recursive?: boolean): void
     _canTranslate: true
 }
+type Constructor<T = EntityBase> = new (...args: any[]) => T
 
-const mixin = (Base) => class EntityLocale extends Base {
+const mixin = <TBase extends Constructor>(Base: TBase) => class EntityLocale extends Base {
 
-    public _catTranslate = true
-    constructor() {
-        super()
+    public _canTranslate = true
+    constructor(...args: any[]) {
+        super(...args)
     }
-    translate(localeId: ID,  recursive: boolean = true): void {
-        const _translate = (arr: Array<any>): object => {
+    translate(localeId: ID, recursive: boolean = true): void {
+        const _translate = (arr: Array<any>): any => {
             let localeItemIdx = arr.findIndex(item => item.localeId === localeId)
             if (localeItemIdx < 0) {
                 return {}
             }
-            return arr[localeItemIdx] && arr[localeItemIdx].values
+            return arr[localeItemIdx]
         }
         const _merge = (target: object, field: object): void => {
             target = _.merge(target, field)
@@ -35,6 +36,10 @@ const mixin = (Base) => class EntityLocale extends Base {
                 const value = target[prop]
                 if (prop === LOCALE_PROP) {
                     const toTranslate = _translate(target[prop])
+                    delete toTranslate.localeId
+                    delete toTranslate.id
+                    delete toTranslate.itemId
+                    
                     _merge(target, toTranslate)
                     return
                 }
@@ -56,7 +61,7 @@ const mixin = (Base) => class EntityLocale extends Base {
     async serialize(metadata: EntityBaseMetadata, payload: RequestPayload): Promise<this> {
         if (metadata.groups.includes(SerializeGroup.Translate)) {
             const localeId = payload.getLocale().id
-            if (localeId ) {
+            if (localeId) {
                 this.translate(localeId)
             }
         }
@@ -66,11 +71,11 @@ const mixin = (Base) => class EntityLocale extends Base {
 
 export class EntityLocaleDefaultBlueprint extends mixin(EntityDefaultBlueprint) {
     @Exclude()
-    _catTranslate: true
+    _canTranslate: true
 }
 export class EntityLocaleItemBlueprint extends mixin(EntityItemBlueprint) {
     @Exclude()
-    _catTranslate: true
+    _canTranslate: true
 }
 
 export type EntityLocaleBlueprint = EntityLocaleDefaultBlueprint & EntityLocaleItemBlueprint

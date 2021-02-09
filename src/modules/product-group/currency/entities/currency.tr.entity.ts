@@ -9,5 +9,7 @@ export class CurrencyLocale extends EntityTranslationBlueprint {
     @ManyToOne(() => Currency, item => item.locale, LOCALE_REL_OPTIONS)
     item: Currency;
 
+    @Column()
+    name: string
 
 }

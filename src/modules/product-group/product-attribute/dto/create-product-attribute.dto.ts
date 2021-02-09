@@ -1,25 +1,28 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, ValidateNested } from "class-validator";
-import { Attribute, UpdateAttributeDto } from "src/internal";
-import { UpdateAttributeValueDto } from "src/internal";
-import { UpdateProductDto } from "src/internal";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, ValidateNested } from "class-validator";
+import { IdDto } from "src/helpers";
+import { Attribute, ID, UpdateAttributeDto } from "src/internal";
 
 export class CreateProductAttributeDto {
 
+    @IsOptional()
+    @IsInt()
+    id: ID;
+
     @IsObject()
     @ValidateNested()
-    @Type(() => UpdateAttributeDto)
-    attr: UpdateAttributeDto
+    @Type(() => IdDto)
+    attr: IdDto
 
     @IsArray()
     @ArrayNotEmpty()
     @ValidateNested({ each: true })
-    @Type(() => UpdateAttributeValueDto)
-    attrValues: UpdateAttributeValueDto[]
+    @Type(() => IdDto)
+    attrValues: IdDto[]
 
 
     @IsObject()
     @ValidateNested()
-    @Type(() => UpdateProductDto)
-    product: UpdateProductDto
+    @Type(() => IdDto)
+    product: IdDto
 }

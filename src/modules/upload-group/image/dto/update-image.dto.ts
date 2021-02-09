@@ -5,6 +5,5 @@ import { CreateImageDto } from './create-image.dto';
 
 export class UpdateImageDto extends PartialType(CreateImageDto) {
     
-    @IsInt()
-    id: ID
+    
 }

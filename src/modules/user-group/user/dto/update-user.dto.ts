@@ -4,6 +4,5 @@ import { ID } from 'src/internal';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-    @IsOptional()
-    id: ID;
+    
 }

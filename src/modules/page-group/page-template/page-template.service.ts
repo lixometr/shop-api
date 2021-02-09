@@ -6,7 +6,7 @@ import { PageTemplateRepository } from './repository/page-template.repository';
 
 @Injectable()
 export class PageTemplateService extends ServiceBlueprint<PageTemplate>{
-  public name = 'pageTemplate'
+  public name = 'page-template'
   constructor(private pageTemplateRepository: PageTemplateRepository, private eventEmiter: EventEmitter2) { super(pageTemplateRepository, eventEmiter) }
  
 }

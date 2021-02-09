@@ -1,36 +1,62 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
-import { Currency, Product } from "src/internal";
-import { EntityLocaleDefaultBlueprint } from "src/internal";
-import { ProductOptionLocale } from "./product-options.tr.entity";
-import { ProductOptionCostTypes, ProductOptionTypes } from "../product-option.types";
-import { ID } from "src/internal";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import {
+  EntityBaseMetadata,
+  Product,
+  RequestPayload,
+} from 'src/internal';
+import { EntityLocaleDefaultBlueprint } from 'src/internal';
+import { ProductOptionLocale } from './product-option.tr.entity';
+import {
+  ProductOptionCostTypes,
+  ProductOptionTypes,
+} from '../product-option.types';
+import { ID } from 'src/internal';
+import { transformCurrency } from '../../product.helpers';
+import { SerializeGroup } from 'src/types';
+import { ProductOptionValue } from './product-option-value.entity';
 
 @Entity({})
 export class ProductOption extends EntityLocaleDefaultBlueprint {
+  @ManyToOne(() => Product, (product) => product.options, {
+    nullable: false,
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+  })
+  product: Product;
 
+  @Column({ enum: ProductOptionTypes })
+  type: ProductOptionTypes;
 
-    @ManyToOne(() => Product, product => product.options, { nullable: false, orphanedRowAction: 'delete', onDelete: 'CASCADE' })
-    product: Product;
+  @Column({ type: 'varchar', default: ProductOptionCostTypes.fixed })
+  cost_type: ProductOptionCostTypes;
 
-    @Column({ enum: ProductOptionTypes })
-    type: ProductOptionTypes;
+  @Column({ nullable: true })
+  comment: string;
 
-    @Column({ type: 'varchar', default: ProductOptionCostTypes.fixed })
-    cost_type: ProductOptionCostTypes
+  @Column({ type: 'json', nullable: true })
+  settings: any;
 
-    @Column({ nullable: true })
-    comment: string;
+  // @Column()
+  // varName: string;
 
-    @Column({ type: 'json', nullable: true })
-    settings: object;
+  @OneToMany(() => ProductOptionValue, optVal => optVal.option, { cascade: true, eager: true })
+  values: ProductOptionValue[]
 
-    @Column()
-    varName: string;
+  @OneToMany(
+    () => ProductOptionLocale,
+    (productOptionLocale) => productOptionLocale.item,
+    { cascade: true, eager: true },
+  )
+  locale: ProductOptionLocale[];
 
-    @OneToMany(() => ProductOptionLocale, productOptionLocale => productOptionLocale.item, { cascade: true, eager: true })
-    locale: ProductOptionLocale[];
+  name: string;
 
-    name: string;
-
-
+  
 }

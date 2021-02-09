@@ -1,15 +1,29 @@
+import { Exclude } from 'class-transformer';
+import * as _ from 'lodash';
 
 export interface EntityBaseMetadata {
-    groups: Array<string>
+  groups: Array<string>;
 }
-// export interface EntityBase {
-//     serialize(metadata: EntityBaseMetadata, payload: RequestPayload): Promise<this>
-// }
+
 export class EntityBase {
-    
-    async serialize(metadata: EntityBaseMetadata, payload: any): Promise<this> {
-        return this
-    }
-
+  @Exclude()
+  public _isSerialized? = false
+  async serialize(metadata: EntityBaseMetadata, payload: any): Promise<this> {
+    const resolvers = Object.keys(this).map(async (key) => {
+      const item = this[key];
+      if (_.isArray(item)) {
+        item.map(async (itm) => {
+          if (itm instanceof EntityBase) {
+            await itm.serialize(metadata, payload);
+          }
+        });
+      }
+      if (item instanceof EntityBase) {
+        await item.serialize(metadata, payload);
+      }
+    });
+    await Promise.all(resolvers);
+    this._isSerialized = true
+    return this;
+  }
 }
-

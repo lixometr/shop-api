@@ -1,9 +1,8 @@
 import { EntityItemBlueprint } from 'src/internal';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class Locale extends EntityItemBlueprint{
-    
-    @Column()
-    name: string;
+export class Locale extends EntityItemBlueprint {
+  @Column()
+  name: string;
 }

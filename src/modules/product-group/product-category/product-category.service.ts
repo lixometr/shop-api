@@ -7,7 +7,7 @@ import { ProductCategoryRepository } from './repositories/category.repository';
 
 @Injectable()
 export class ProductCategoryService extends ServiceBlueprint<ProductCategory>{
-  public name = 'productCategory'
+  public name = 'product-category'
   constructor(private itemRepository: ProductCategoryRepository, private eventEmiter: EventEmitter2) { super(itemRepository, eventEmiter) }
 
   findTrees({ }) {

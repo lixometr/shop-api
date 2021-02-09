@@ -23,8 +23,4 @@ export class ProductListenerService {
         if(item.slug === data.slug) return
         return this.preCreate({ data, payload })
     }
-    // @OnEvent('some')
-    // some(){ 
-    //     console.log('some')
-    // }
 }

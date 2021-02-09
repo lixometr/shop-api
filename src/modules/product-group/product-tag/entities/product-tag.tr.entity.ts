@@ -5,9 +5,11 @@ import { ID } from "src/internal";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({})
-export class ProductTagLocale extends EntityTranslationBlueprint{
+export class ProductTagLocale extends EntityTranslationBlueprint {
 
     @ManyToOne(() => ProductTag, productTag => productTag.locale, LOCALE_REL_OPTIONS)
     item: ProductTag;
 
+    @Column()
+    name: string;
 }

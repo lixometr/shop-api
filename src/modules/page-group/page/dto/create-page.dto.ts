@@ -1,6 +1,7 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsNotEmptyObject, IsOptional, IsString, ValidateNested } from "class-validator";
-import { UpdatePageTemplateDto } from "src/internal";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmptyObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import {  SeoDto } from "src/internal";
+import { ID } from "src/internal";
 import { LocalePageDto } from "./locale-page.dto";
 
 export class CreatePageDto {
@@ -14,8 +15,8 @@ export class CreatePageDto {
     @Type(() => LocalePageDto)
     locale: LocalePageDto[]
 
-    @IsNotEmptyObject()
-    @ValidateNested()
-    @Type(() => UpdatePageTemplateDto)
-    template: UpdatePageTemplateDto
+    @IsInt()
+    templateId: ID
+
+    
 }

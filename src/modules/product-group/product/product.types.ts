@@ -3,3 +3,8 @@ export enum ProductStatus {
     Draft = 'draft',
     NotPublished = 'notPublished'
 }
+
+export enum ProductType {
+    simple = 'simple',
+    variation = 'variation'
+}

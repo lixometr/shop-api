@@ -1,27 +1,31 @@
-import { EntityDefaultBlueprint } from "src/internal";
-import { ID } from "src/internal";
-import {  Column, Entity, ManyToOne, PrimaryGeneratedColumn,  } from "typeorm";
-import { Currency, Product } from "src/internal";
+import { EntityDefaultBlueprint } from 'src/internal';
+import { ID } from 'src/internal';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { Currency, Product } from 'src/internal';
 
 @Entity({})
-export class ProductPrice  extends EntityDefaultBlueprint {
+export class ProductPrice extends EntityDefaultBlueprint {
+  @ManyToOne(() => Product, {
+    nullable: false,
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+  })
+  item: Product;
 
-    @ManyToOne(() => Product, { nullable: false, orphanedRowAction: 'delete', onDelete: 'CASCADE' })
-    item: Product;
+  @Column()
+  currencyId: ID;
 
-    @Column()
-    currencyId: ID;
+  @ManyToOne(() => Currency, { nullable: false })
+  currency: Currency;
 
-    @ManyToOne(() => Currency, { nullable: false })
-    currency: Currency;
+  // До 1 млн
+  @Column( {type: 'float', precision: 40, scale: 2 })
+  price: number;
+  
+  // До 1 млн
+  @Column('float', { precision: 40, scale: 2, nullable: true})
+  oldPrice: number;
 
-    @Column({type: 'float'})
-    price: number;
-
-    @Column({type: 'float', nullable: true})
-    oldPrice: number;
-
-    @Column({nullable: true})
-    sale: number;
-
+  @Column({ nullable: true })
+  sale: number;
 }

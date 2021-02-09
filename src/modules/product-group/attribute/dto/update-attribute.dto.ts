@@ -4,7 +4,5 @@ import { ID } from 'src/types';
 import { CreateAttributeDto } from './create-attribute.dto';
 
 export class UpdateAttributeDto extends PartialType(CreateAttributeDto) {
-    @IsOptional()
-    @IsInt()
-    id: ID
+    
 }

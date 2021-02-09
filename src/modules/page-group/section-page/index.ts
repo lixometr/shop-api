@@ -1,0 +1,5 @@
+export * from "./entities/section-page.entity"
+export * from "./entities/section-page.tr.entity"
+export * from "./dto/create-section-page.dto"
+export * from "./dto/locale-section-page.dto"
+export * from "./dto/update-section-page.dto"

@@ -23,7 +23,9 @@ export class UserService extends ServiceBlueprint<User>{
         const toCreate: any = { ...data }
         toCreate.password = await this.passwordService.hashPassword(data.password)
         toCreate.confirmKey = await this.confirmService.generateKey()
-        const result = await super.create(toCreate, payload)
+        console.log(data)
+
+        const result = await super.create({data: toCreate}, payload)
         return result
     }
     async checkPassword(userId, password: string): Promise<boolean> {

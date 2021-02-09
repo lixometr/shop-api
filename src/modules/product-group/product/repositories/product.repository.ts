@@ -1,27 +1,13 @@
 import { RequestPayload, DefaultRepository } from 'src/internal';
 import { Attribute } from 'src/internal';
 import { ID } from 'src/types';
-import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
+import { EntityRepository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../entities/product.entity';
-import { filterItems, getFilters } from "../../../../helpers/product-filters/product-filters.helper"
-import { ProductFiltersResponse } from '../../../../helpers/product-filters/product-filters.response';
+import { filterItems, getFilters } from "src/internal"
+import { ProductFiltersResponse } from 'src/internal';
 @EntityRepository(Product)
 export class ProductRepository extends DefaultRepository<Product> {
-    async populate(query: SelectQueryBuilder<Product>, requestPayload: RequestPayload) {
-        query
-            .leftJoinAndSelect('product.tags', '_tags')
-            .leftJoinAndSelect('product.locale', '_locale')
-            .leftJoinAndSelect('product.category', '_category')
-            .leftJoinAndSelect('product.defaultImage', '_defaultImage')
-            .leftJoinAndSelect('product.images', '_images')
-            .leftJoinAndSelect('product.attributes', '_attributes')
-            .leftJoinAndSelect('product.prices', '_prices')
-            .leftJoinAndSelect('_attributes.attr', '_attr')
-            .leftJoinAndSelect('_attr.locale', '_attrLocale')
-            .leftJoinAndSelect('_attributes.attrValues', '_attrValues')
-            .leftJoinAndSelect('_attrValues.locale', '_attrValuesLocale')
-        return query
-    }
+
     QFindByCategoryId({ id }, payload: RequestPayload) {
         return this.createQueryBuilder('product')
             .leftJoinAndSelect('product.category', 'category')
@@ -38,7 +24,9 @@ export class ProductRepository extends DefaultRepository<Product> {
         //     .leftJoinAndSelect('attribute.attr', 'attr')
         //     .leftJoinAndSelect('attribute.attrValues', 'attrValue')
         // .where('attr.slug = :attrSlug AND attrValue.slug IN (:...values)', {attrSlug: 'color', values: ['s']})
+        const orderBy = payload.getOrderBy('product')
         this.populate(query, payload)
+        query.orderBy({ sortOrder: 'DESC', ...orderBy })
         let items = await query.getMany()
         const currency = payload.getCurrency()
         items = items.map(item => {

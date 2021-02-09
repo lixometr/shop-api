@@ -4,11 +4,12 @@ import { ProductCategoryController } from './product-category.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductCategoryRepository } from './repositories/category.repository';
 import { ProductModule } from '../product/product.module';
+import { ProductCategoryListenerService } from './product-category.listener';
 
 @Module({
   imports: [forwardRef(() => ProductModule), TypeOrmModule.forFeature([ProductCategoryRepository]) ],
   controllers: [ProductCategoryController],
-  providers: [ProductCategoryService],
+  providers: [ProductCategoryService, ProductCategoryListenerService],
   exports: [ProductCategoryService]
 })
 export class ProductCategoryModule {}

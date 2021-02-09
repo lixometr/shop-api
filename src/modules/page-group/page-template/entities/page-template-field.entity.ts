@@ -10,7 +10,7 @@ export class PageTemplateField extends EntityDefaultBlueprint {
     name: string;
 
     @Column({ nullable: false })
-    var_name: string;
+    varName: string;
 
     @Column({ nullable: false })
     type: string;
