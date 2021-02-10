@@ -3,11 +3,12 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ServiceBlueprint } from 'src/blueprints/service';
 import { RequestPayload } from 'src/helpers';
 import { ID, ProductCategory } from 'src/internal';
+import { ProductCategoryName } from './product-category.constants';
 import { ProductCategoryRepository } from './repositories/category.repository';
 
 @Injectable()
 export class ProductCategoryService extends ServiceBlueprint<ProductCategory>{
-  public name = 'product-category'
+  public name = ProductCategoryName
   constructor(private itemRepository: ProductCategoryRepository, private eventEmiter: EventEmitter2) { super(itemRepository, eventEmiter) }
 
   findTrees({ }) {

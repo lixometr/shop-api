@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
 import { LocaleProductTagDto } from "./locale-product.tag.dto";
 
 export class CreateProductTagDto {
@@ -18,4 +18,8 @@ export class CreateProductTagDto {
 
     @IsString()
     value: string;
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

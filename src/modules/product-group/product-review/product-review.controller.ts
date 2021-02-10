@@ -6,9 +6,11 @@ import { GetRequestPayload, ID, RequestPayload } from 'src/internal';
 import { AuthAdmin } from 'src/internal';
 import { SerializeGroup } from 'src/types';
 import { ControllerBlueprint } from 'src/blueprints/controller';
+import { ProductReviewName } from './product-review.constants';
 
 @Controller('product-review')
 export class ProductReviewController extends ControllerBlueprint{
+  public name = ProductReviewName
   constructor(private readonly productReviewService: ProductReviewService) {super(productReviewService) }
 
 

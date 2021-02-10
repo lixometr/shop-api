@@ -4,10 +4,12 @@ import { ID, ListenerItemBlueprint, RequestPayload } from "src/internal";
 import { EventName } from "src/internal";
 import { CreatePageTemplateDto } from "./dto/create-page-template.dto";
 import { PageTemplate } from "./entities/page-template.entity";
+import { PageTemplateName } from "./page-template.constants";
 import { PageTemplateService } from "./page-template.service";
 
 @Injectable()
 export class PageTemplateListenerService extends ListenerItemBlueprint{
+    public name = PageTemplateName
     constructor(private itemService: PageTemplateService) {
         super(itemService)
     }

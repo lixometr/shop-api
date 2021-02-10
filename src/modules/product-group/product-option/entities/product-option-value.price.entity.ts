@@ -5,7 +5,10 @@ import { Currency } from 'src/internal';
 import { ProductOptionValue } from './product-option-value.entity';
 
 @Entity({})
-export class ProductOptionValuePrice extends EntityDefaultBlueprint {
+export class ProductOptionValuePrice {
+  @PrimaryGeneratedColumn()
+  id: ID
+  
   @ManyToOne(() => ProductOptionValue, {
     nullable: false,
     orphanedRowAction: 'delete',

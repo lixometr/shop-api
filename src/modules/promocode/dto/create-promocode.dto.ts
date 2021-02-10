@@ -36,4 +36,8 @@ export class CreatePromocodeDto {
     @IsDate()
     end_date: string
 
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
+
 }

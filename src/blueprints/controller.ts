@@ -18,6 +18,7 @@ export class ControllerBlueprint {
 
   @AuthAdmin()
   @Post()
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   async create(
     @Body() createDto,
     @GetRequestPayload() requestPayload: RequestPayload,
@@ -32,6 +33,17 @@ export class ControllerBlueprint {
   ): Promise<any> {
     return await this.service.findAll({}, requestPayload);
   }
+
+  @AuthAdmin()
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminInfo, SerializeGroup.Translate] })
+  @Get('admin')
+  async findAllAdmin(
+    @GetRequestPayload() requestPayload?: RequestPayload,
+  ): Promise<any> {
+    return await this.service.findAll({}, requestPayload);
+  }
+
+  @SerializeOptions({ groups: [SerializeGroup.Info, SerializeGroup.Translate] })
   @Get('search/:name')
   async search(@Param('name') name: string, @GetRequestPayload() requestPayload: RequestPayload): Promise<any> {
     return this.service.search({ name }, requestPayload)
@@ -58,9 +70,9 @@ export class ControllerBlueprint {
   @AuthAdmin()
   @SerializeOptions({
     groups: [
-      SerializeGroup.Full,
       SerializeGroup.Translate,
       SerializeGroup.Admin,
+      SerializeGroup.AdminFull,
     ],
   })
   @Put('id/:id')
@@ -85,7 +97,7 @@ export class ControllerBlueprint {
   }
 
   @AuthAdmin()
-  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.Full, SerializeGroup.AdminFull] })
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   @Get('admin/id/:id')
   async findByIdAdmin(
     @Param('id') id: ID,
@@ -95,7 +107,7 @@ export class ControllerBlueprint {
   }
 
   @AuthAdmin()
-  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.Full, SerializeGroup.AdminFull] })
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   @Get('admin/slug/:slug')
   async findBySlugAdmin(
     @Param('slug') slug: SLUG,

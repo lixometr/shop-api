@@ -5,10 +5,11 @@ import { RequestPayload } from 'src/internal';
 import { SectionPageService } from '../section-page/section-page.service';
 import { Section } from './entities/section.entity';
 import { SectionRepository } from './repository/section.repository';
+import { SectionName } from './section.constants';
 
 @Injectable()
 export class SectionService extends ServiceBlueprint<Section>{
-  public name = 'section'
+  public name = SectionName
   constructor(private sectionRepository: SectionRepository, private eventEmiter: EventEmitter2, private sectionPageService: SectionPageService) { super(sectionRepository, eventEmiter) }
   async findPagesById({ id }, payload: RequestPayload) {
     return this.sectionPageService.findBySectionId({ id }, payload)

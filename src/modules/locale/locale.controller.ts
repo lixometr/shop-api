@@ -6,9 +6,11 @@ import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, ID, NoAuthRequest } from 'src/internal';
 import { GetRequestPayload } from 'src/internal';
 import { RequestPayload } from 'src/internal';
+import { LocaleName } from './locale.constants';
 
 @Controller('locale')
 export class LocaleController extends ControllerBlueprint {
+  public name = LocaleName
   constructor(private readonly localeService: LocaleService) { super(localeService) }
 
   @AuthAdmin()

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
 import { LocaleAttributeDto } from "./locale-attribute.dto";
 
 export class CreateAttributeDto {
@@ -13,5 +13,7 @@ export class CreateAttributeDto {
     locale: LocaleAttributeDto[];
     
 
-
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

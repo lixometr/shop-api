@@ -3,10 +3,12 @@ import { OnEvent } from "@nestjs/event-emitter";
 import { ID, RequestPayload } from "src/internal";
 import { EventName } from "src/internal";
 import { CreateProductCategoryDto } from "./dto/create-product-category.dto";
+import { ProductCategoryName } from "./product-category.constants";
 import { ProductCategoryService } from "./product-category.service";
 
 @Injectable()
 export class ProductCategoryListenerService {
+    public name = ProductCategoryName
     constructor(private itemService: ProductCategoryService) {
     }
     @OnEvent(`product-category.${EventName.beforeCreate}`)

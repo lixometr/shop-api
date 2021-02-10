@@ -32,5 +32,7 @@ export class CreateProductOptionValueDto {
   @Type(() => CreateProductOptionValuePriceDto)
   prices: CreateProductOptionValuePriceDto[];
 
-  
+  @IsOptional()
+  @IsInt()
+  sortOrder: number
 }

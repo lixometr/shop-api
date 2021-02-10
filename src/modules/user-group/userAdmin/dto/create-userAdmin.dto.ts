@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
 import { AdminRoles } from "../userAdmin.types";
 
 export class CreateUserAdminDto {
@@ -24,4 +24,8 @@ export class CreateUserAdminDto {
     @IsOptional()
     @IsEnum(AdminRoles)
     role: AdminRoles;
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

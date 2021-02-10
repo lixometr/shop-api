@@ -23,5 +23,7 @@ export class CreateProductCategoryDto {
     @IsOptional()
     parent: IdDto;
 
-
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

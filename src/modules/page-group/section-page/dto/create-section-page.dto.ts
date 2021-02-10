@@ -18,6 +18,9 @@ export class CreateSectionPageDto {
 
     @IsInt()
     sectionId: ID
-
+    
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
     
 }

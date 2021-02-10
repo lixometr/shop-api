@@ -10,8 +10,14 @@ export class OrderByEntity {
     constructor({ order, orderBy }: OrderByDto) {
         const defaultOrderBy = ['createdAt']
         const defaultOrder: ('ASC' | 'DESC')[] = ['DESC']
-        this.orderBy = [...defaultOrderBy, ...orderBy]
-        this.order = [...defaultOrder, ...order]
+        this.orderBy = defaultOrderBy
+        if (orderBy && orderBy.length) {
+            this.orderBy = orderBy
+        }
+        this.order = defaultOrder
+        if (order && order.length) {
+            this.order = order
+        }
 
     }
     getFields(namespace?: string): IOrderBy {

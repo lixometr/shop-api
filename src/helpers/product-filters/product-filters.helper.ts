@@ -39,7 +39,7 @@ export function filterItems(items: Product[], filters: ProductFilters) {
 export function getFilters(items: Product[], availableFilters?: Attribute[]): { price: [number, number], attributes: ProductAttribute[] } {
     const attribibutesFilters = []
     items.map(item => {
-        const attributes = item.attributes || []
+        const attributes = item.attributes 
         attributes.map(attribute => {
             if (availableFilters && availableFilters.findIndex(attr => attr.slug === attribute.attr.slug) < 0) return
             const idxInFilters = attribibutesFilters.findIndex(attrFilter => attrFilter.attr.slug === attribute.attr.slug)

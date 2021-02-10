@@ -7,3 +7,5 @@ export * from "./dto/update-product.dto"
 export * from "./dto/locale-product.dto"
 
 export * from "./bo/product.bo"
+
+export * from "./product.constants"

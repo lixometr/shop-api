@@ -7,25 +7,28 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductFiltersResponse } from 'src/internal';
 import { SerializeGroup } from 'src/types';
 import { AuthAdmin } from 'src/internal';
+import { ProductName } from './product.constants';
 
 @Controller('product')
 export class ProductController extends ControllerBlueprint {
+  public name = ProductName
   constructor(private readonly productService: ProductService) { super(productService) }
 
+  @SerializeOptions({ groups: [SerializeGroup.Info, SerializeGroup.Translate] })
   @Get()
   findAll(@GetRequestPayload() requestPayload: RequestPayload): Promise<ProductFiltersResponse> {
     return this.productService.findAllWithFilters({}, requestPayload)
   }
 
   @AuthAdmin()
-  @SerializeOptions({groups: [SerializeGroup.Full]})
+  @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Admin]})
   @Post()
   async create(@Body() product: CreateProductDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return super.create(product, requestPayload)
   }
 
   @AuthAdmin()
-  @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Translate]})
+  @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Admin]})
   @Put('id/:id')
   update(@Param('id') id: ID, @Body() updateDto: UpdateProductDto) {
     return super.update(id, updateDto)

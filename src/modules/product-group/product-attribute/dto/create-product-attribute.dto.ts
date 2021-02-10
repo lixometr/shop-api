@@ -21,8 +21,13 @@ export class CreateProductAttributeDto {
     attrValues: IdDto[]
 
 
+    @IsOptional()
     @IsObject()
     @ValidateNested()
     @Type(() => IdDto)
     product: IdDto
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

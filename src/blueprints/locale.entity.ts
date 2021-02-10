@@ -27,7 +27,7 @@ const mixin = <TBase extends Constructor>(Base: TBase) => class EntityLocale ext
         }
         const _merge = (target: object, field: object): void => {
             target = _.merge(target, field)
-            delete target[LOCALE_PROP]
+            // delete target[LOCALE_PROP]
         }
 
         const recursiveTranslate = function t(target) {
@@ -35,7 +35,7 @@ const mixin = <TBase extends Constructor>(Base: TBase) => class EntityLocale ext
             props.map(prop => {
                 const value = target[prop]
                 if (prop === LOCALE_PROP) {
-                    const toTranslate = _translate(target[prop])
+                    const toTranslate = {..._translate(target[prop])}
                     delete toTranslate.localeId
                     delete toTranslate.id
                     delete toTranslate.itemId

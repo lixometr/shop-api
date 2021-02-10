@@ -1,10 +1,13 @@
 import { EntityDefaultBlueprint } from 'src/internal';
 import { ID } from 'src/internal';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Currency, Product } from 'src/internal';
 
 @Entity({})
-export class ProductPrice extends EntityDefaultBlueprint {
+export class ProductPrice  {
+  @PrimaryGeneratedColumn()
+  id: ID
+
   @ManyToOne(() => Product, {
     nullable: false,
     orphanedRowAction: 'delete',

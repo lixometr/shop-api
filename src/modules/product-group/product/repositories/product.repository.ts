@@ -1,17 +1,29 @@
 import { RequestPayload, DefaultRepository } from 'src/internal';
 import { Attribute } from 'src/internal';
-import { ID } from 'src/types';
+import { ID, SerializeGroup } from 'src/types';
 import { EntityRepository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { filterItems, getFilters } from "src/internal"
 import { ProductFiltersResponse } from 'src/internal';
+import { ProductName } from '../product.constants';
+import { ProductStatus } from '../product.types';
 @EntityRepository(Product)
 export class ProductRepository extends DefaultRepository<Product> {
-
+    public name = ProductName
     QFindByCategoryId({ id }, payload: RequestPayload) {
-        return this.createQueryBuilder('product')
-            .leftJoinAndSelect('product.category', 'category')
+        return this.createQueryBuilder(this.name)
+            .leftJoinAndSelect(`${this.name}.category`, 'category')
             .where('category.id = :id', { id })
+
+    }
+    
+    restrictions(query: SelectQueryBuilder<Product>, payload: RequestPayload) {
+        super.restrictions(query, payload)
+        const groups = payload.getGroups()
+        if (!groups.includes(SerializeGroup.Admin)) {
+            query.andWhere(`${this.name}.status = :status`, { status: ProductStatus.Published })
+        }
+        return query
     }
     async findByCategoryId({ id }: { id: ID }, payload: RequestPayload) {
         const query = this.QFindByCategoryId({ id }, payload)
@@ -19,14 +31,10 @@ export class ProductRepository extends DefaultRepository<Product> {
         return await this.findMany(query, payload)
     }
     async findWithFilters({ query, availableFilters }: { query: SelectQueryBuilder<Product>, availableFilters?: Attribute[] }, payload: RequestPayload) {
-        // const query = this.createQueryBuilder('product')
-        //     .leftJoinAndSelect("product.attributes", "attribute")
-        //     .leftJoinAndSelect('attribute.attr', 'attr')
-        //     .leftJoinAndSelect('attribute.attrValues', 'attrValue')
-        // .where('attr.slug = :attrSlug AND attrValue.slug IN (:...values)', {attrSlug: 'color', values: ['s']})
-        const orderBy = payload.getOrderBy('product')
         this.populate(query, payload)
-        query.orderBy({ sortOrder: 'DESC', ...orderBy })
+        this.orderBy(query, payload)
+        this.restrictions(query, payload)
+       
         let items = await query.getMany()
         const currency = payload.getCurrency()
         items = items.map(item => {
@@ -49,7 +57,7 @@ export class ProductRepository extends DefaultRepository<Product> {
     }
 
     async findAllWithFilters({ }, payload: RequestPayload) {
-        const query = this.createQueryBuilder('product')
+        const query = this.createQueryBuilder(this.name)
         return this.findWithFilters({ query }, payload)
     }
 

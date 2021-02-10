@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, GetRequestPayload, RequestPayload } from 'src/internal';
+import { AttributeValueName } from './attribute-value.constants';
 import { AttributeValueService } from './attribute-value.service';
 import { CreateAttributeValueDto } from './dto/create-attribute-value.dto';
 import { UpdateAttributeValueDto } from './dto/update-attribute-value.dto';
 
 @Controller('attribute-value')
 export class AttributeValueController extends ControllerBlueprint {
+  public name = AttributeValueName
   constructor(private readonly attributeValueService: AttributeValueService) { super(attributeValueService) }
 
 

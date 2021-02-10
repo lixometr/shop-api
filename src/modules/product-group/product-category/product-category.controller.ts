@@ -7,9 +7,11 @@ import { AuthAdmin, GetRequestPayload, ID, SerializeGroup } from 'src/internal';
 import { ProductService } from '../product/product.service';
 import { AppRequest, NoAuthRequest } from 'src/internal';
 import { RequestPayload } from 'src/helpers';
+import { ProductCategoryName } from './product-category.constants';
 
 @Controller('category')
 export class ProductCategoryController extends ControllerBlueprint {
+  public name = ProductCategoryName
   constructor(private readonly itemService: ProductCategoryService,
     private productService: ProductService
   ) { super(itemService) }
@@ -57,8 +59,8 @@ export class ProductCategoryController extends ControllerBlueprint {
   }
 
   @Get('id/:id/products')
-  fiindProductsById(@Param('id', new ParseIntPipe()) id: ID, @Req() request: NoAuthRequest) {
-    return this.productService.findByCategoryId({ id }, new RequestPayload({ request }))
+  fiindProductsById(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
+    return this.productService.findByCategoryId({ id }, requestPayload)
   }
 
 }

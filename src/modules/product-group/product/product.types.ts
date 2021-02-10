@@ -1,7 +1,7 @@
 export enum ProductStatus {
     Published = 'published',
     Draft = 'draft',
-    NotPublished = 'notPublished'
+    NotPublished = 'not-published'
 }
 
 export enum ProductType {

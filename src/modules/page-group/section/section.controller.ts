@@ -8,9 +8,11 @@ import { GetRequestPayload, RequestPayload } from 'src/internal';
 import { CreateSectionPageDto } from 'src/internal';
 import { SectionPageService } from '../section-page/section-page.service';
 import { SLUG } from 'src/types';
+import { SectionName } from './section.constants';
 
 @Controller('section')
 export class SectionController extends ControllerBlueprint {
+  public name = SectionName
   constructor(private readonly sectionService: SectionService, private sectionPageService: SectionPageService) { super(sectionService) }
 
   @AuthAdmin()

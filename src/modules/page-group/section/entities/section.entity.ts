@@ -11,6 +11,7 @@ import { SectionPage } from '../../section-page';
 @Entity()
 export class Section extends EntityLocaleItemBlueprint {
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => SectionLocale, pageLocale => pageLocale.item, { cascade: true, eager: true })
     locale: SectionLocale[];
 

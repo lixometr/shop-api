@@ -1,4 +1,5 @@
-import { EntityLocaleItemBlueprint, ProductTagLocale } from 'src/internal';
+import { Expose } from 'class-transformer';
+import { EntityLocaleItemBlueprint, ProductTagLocale, SerializeGroup } from 'src/internal';
 import { Product } from 'src/internal';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
 
@@ -8,6 +9,7 @@ export class ProductTag extends EntityLocaleItemBlueprint {
     @Column()
     value: string;
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => ProductTagLocale, productTagLocale => productTagLocale.item, { cascade: true, eager: true })
     locale: ProductTagLocale[];
 

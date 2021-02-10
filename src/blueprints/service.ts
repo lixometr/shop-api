@@ -20,7 +20,7 @@ export class ServiceBlueprint<T extends EntityBase>{
         return result
     }
     async search({ name }, payload: RequestPayload) {
-        return this.repository.search({ name }, payload)
+        return this.repository.search({ value: name }, payload)
     }
     async findAll({ }, payload: RequestPayload): Promise<PaginationResponse<T>> {
         await this.event.emitAsync(`${this.name}.${EventName.beforeFindAll}`, { payload })

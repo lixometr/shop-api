@@ -16,6 +16,9 @@ export class CreateSectionDto {
 
     @IsInt()
     templateId: number
-
+    
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
   
 }

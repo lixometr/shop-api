@@ -29,6 +29,10 @@ export class PageTemplateFieldDto {
     @IsObject()
     settings: any
 
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
+
 }
 
 export class CreatePageTemplateDto {

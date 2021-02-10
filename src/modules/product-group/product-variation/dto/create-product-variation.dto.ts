@@ -44,5 +44,7 @@ export class CreateProductVariationDto {
     @Type(() => IdDto)
     images: IdDto[]
 
-
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

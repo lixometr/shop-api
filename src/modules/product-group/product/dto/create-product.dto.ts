@@ -79,4 +79,6 @@ export class CreateProductDto {
 
     @IsString()
     sku: string;
+
+   
 }

@@ -1,10 +1,12 @@
 import { ConflictException } from '@nestjs/common';
 import { ArrayResponse, DefaultRepository, ID, ProductCategory } from 'src/internal';
 import { DeleteResult, EntityManager, EntityRepository, Repository, Transaction, TreeRepository } from 'typeorm';
+import { ProductCategoryName } from '../product-category.constants';
 
 @EntityRepository(ProductCategory)
 export class ProductCategoryRepository extends DefaultRepository<ProductCategory> {
     public treeRepository: TreeRepository<ProductCategory>
+    public name = ProductCategoryName
     constructor(public manager: EntityManager) {
         super()
         this.treeRepository = this.manager.getTreeRepository(ProductCategory)

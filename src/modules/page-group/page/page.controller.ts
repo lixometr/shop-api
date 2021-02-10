@@ -5,9 +5,11 @@ import { UpdatePageDto } from './dto/update-page.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, ID } from 'src/internal';
 import { GetRequestPayload, RequestPayload } from 'src/internal';
+import { PageName } from './page.constants';
 
 @Controller('page')
 export class PageController extends ControllerBlueprint {
+  public name = PageName
   constructor(private readonly pageService: PageService) { super(pageService) }
 
   @AuthAdmin()

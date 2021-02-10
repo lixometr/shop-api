@@ -4,10 +4,12 @@ import { ID, ListenerItemBlueprint, RequestPayload } from "src/internal";
 import { EventName } from "src/internal";
 import { CreateSectionDto } from "./dto/create-section.dto";
 import { Section } from "./entities/section.entity";
+import { SectionName } from "./section.constants";
 import { SectionService } from "./section.service";
 
 @Injectable()
 export class SectionListenerService extends ListenerItemBlueprint{
+    public name = SectionName
     constructor(private itemService: SectionService) {
         super(itemService)
     }

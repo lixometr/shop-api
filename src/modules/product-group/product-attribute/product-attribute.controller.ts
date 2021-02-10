@@ -5,9 +5,11 @@ import { UpdateProductAttributeDto } from './dto/update-product-attribute.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { GetRequestPayload, RequestPayload } from 'src/internal';
 import { AuthAdmin } from 'src/internal';
+import { ProductAttributeName } from './product-attribute.constants';
 
 @Controller('product-attribute')
 export class ProductAttributeController extends ControllerBlueprint{
+  public name = ProductAttributeName   
   constructor(private readonly productAttributeService: ProductAttributeService) {super(productAttributeService)}
 
   @AuthAdmin()

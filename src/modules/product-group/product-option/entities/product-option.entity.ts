@@ -18,9 +18,9 @@ import {
   ProductOptionTypes,
 } from '../product-option.types';
 import { ID } from 'src/internal';
-import { transformCurrency } from '../../product.helpers';
 import { SerializeGroup } from 'src/types';
 import { ProductOptionValue } from './product-option-value.entity';
+import { Expose } from 'class-transformer';
 
 @Entity({})
 export class ProductOption extends EntityLocaleDefaultBlueprint {
@@ -49,6 +49,7 @@ export class ProductOption extends EntityLocaleDefaultBlueprint {
   @OneToMany(() => ProductOptionValue, optVal => optVal.option, { cascade: true, eager: true })
   values: ProductOptionValue[]
 
+  @Expose({ groups: [SerializeGroup.Admin] })
   @OneToMany(
     () => ProductOptionLocale,
     (productOptionLocale) => productOptionLocale.item,

@@ -21,6 +21,10 @@ export class CreateProductReviewDto {
     @IsString()
     title: string;
 
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
+    
     // @IsOptional()
     // @IsEnum(ProductReviewStatus)
     // status: ProductReviewStatus

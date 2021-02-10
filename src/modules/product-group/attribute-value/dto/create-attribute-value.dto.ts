@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsInt, IsNotEmptyObject, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmptyObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { IdDto } from "src/helpers";
 import { UpdateAttributeDto } from "src/internal";
 import { ID } from "src/internal";
@@ -22,4 +22,8 @@ export class CreateAttributeValueDto {
 
     @IsInt()
     attributeId: ID
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

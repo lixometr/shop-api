@@ -19,4 +19,7 @@ export class CreatePageDto {
     templateId: ID
 
     
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

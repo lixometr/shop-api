@@ -19,5 +19,7 @@ export class CreateCurrencyDto {
     @Type(() => LocaleCurrencyDto)
     locale: LocaleCurrencyDto[];
     
-
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

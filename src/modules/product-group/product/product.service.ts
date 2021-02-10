@@ -6,11 +6,12 @@ import { RequestPayload } from 'src/internal';
 import { ID } from 'src/internal';
 import { EventName } from 'src/types';
 import { Product } from './entities/product.entity';
+import { ProductName } from './product.constants';
 import { ProductRepository } from './repositories/product.repository';
 
 @Injectable()
 export class ProductService extends ServiceBlueprint<Product>{
-    public name = 'product'
+    public name = ProductName
     constructor(private productRepository: ProductRepository, private eventEmiter: EventEmitter2) { super(productRepository, eventEmiter) }
 
     async findByCategoryId({ id }: { id: ID }, payload: RequestPayload) {

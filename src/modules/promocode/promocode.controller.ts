@@ -4,9 +4,11 @@ import { CreatePromocodeDto } from './dto/create-promocode.dto';
 import { UpdatePromocodeDto } from './dto/update-promocode.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, GetRequestPayload, ID, RequestPayload, SerializeGroup } from 'src/internal';
+import { PromocodeName } from './promocode.constants';
 
 @Controller('promocode')
 export class PromocodeController extends ControllerBlueprint {
+  public name = PromocodeName
   constructor(private readonly promocodeService: PromocodeService) { super(promocodeService) }
   findBySlug() { return null }
   findBySlugAdmin() { return null }

@@ -2,25 +2,33 @@ import { AppConfig } from "src/config";
 import { FILTER_PARAM } from "src/constants";
 import { AppRequest, PaginationDto, ProductFilters, ProductFiltersDto } from "src/internal";
 import { Currency, Locale } from "src/internal";
-import { OrderByEntity } from "../order-by";
+import { OrderByDto, OrderByEntity } from "src/internal";
 
 export interface RequestPayloadProps {
     request: AppRequest,
+    groups: string[]
     pagination?: PaginationDto,
+    filters?: ProductFilters,
+    orderBy?: OrderByDto,
 }
 
 export class RequestPayload {
     public request: AppRequest
+    public groups: string[]
     public pagination?: PaginationDto
     public filters?: ProductFilters
     // orderBy=createdAt&order=DESC&orderBy=updateAt&order=ASC
-    public orderBy?: OrderByEntity
+    public orderBy?: OrderByDto
+    // public user
     constructor(payload: RequestPayloadProps) {
         Object.assign(this, payload)
         this.init()
     }
     init() {
 
+    }
+    getGroups() {
+        return this.groups
     }
     setFilters(filters: ProductFiltersDto) {
         this.filters = new ProductFilters(filters)

@@ -24,4 +24,6 @@ export class LocalePageDto {
     @Type(() => SeoDto)
     seo: SeoDto
 
+   
+
 }

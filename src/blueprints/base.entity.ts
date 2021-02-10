@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import * as _ from 'lodash';
+import { EntityDefaultBlueprint } from 'src/internal';
 
 export interface EntityBaseMetadata {
   groups: Array<string>;
@@ -7,7 +8,7 @@ export interface EntityBaseMetadata {
 
 export class EntityBase {
   @Exclude()
-  public _isSerialized? = false
+  public _isSerialized?= false
   async serialize(metadata: EntityBaseMetadata, payload: any): Promise<this> {
     const resolvers = Object.keys(this).map(async (key) => {
       const item = this[key];
@@ -17,6 +18,9 @@ export class EntityBase {
             await itm.serialize(metadata, payload);
           }
         });
+        if (item[0] instanceof EntityDefaultBlueprint) {
+          item.sort((a, b) => b.sortOrder - a.sortOrder)
+        }
       }
       if (item instanceof EntityBase) {
         await item.serialize(metadata, payload);

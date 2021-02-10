@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
 import { Roles } from "../user.types";
 
 export class CreateUserDto {
@@ -16,5 +16,8 @@ export class CreateUserDto {
     @IsString()
     password: string;
 
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 
 }

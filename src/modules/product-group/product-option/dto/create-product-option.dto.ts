@@ -3,6 +3,7 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsEnum,
+  IsInt,
   IsObject,
   IsOptional,
   IsString,
@@ -46,4 +47,8 @@ export class CreateProductOptionDto {
   @IsOptional()
   @IsString()
   comment: string;
+
+  @IsOptional()
+  @IsInt()
+  sortOrder: number
 }

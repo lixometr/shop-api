@@ -16,14 +16,14 @@ export function transformCurrency(target, currencyId: number, PRICE_PROP: string
 
   const _merge = (target: object, field: object): void => {
     target = _.merge(target, field)
-    delete target[PRICE_PROP]
+    // delete target[PRICE_PROP]
   }
 
   const recursiveInit = function t(target) {
     const props = Object.keys(target)
     props.map(prop => {
       if (prop === PRICE_PROP) {
-        const value = _init(target[prop] || [])
+        const value = {..._init(target[prop] || [])}
         delete value.currencyId
         delete value.id
         _merge(target, value)

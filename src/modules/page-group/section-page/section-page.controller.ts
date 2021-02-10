@@ -5,9 +5,11 @@ import { UpdateSectionPageDto } from './dto/update-section-page.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, ID } from 'src/internal';
 import { GetRequestPayload, RequestPayload } from 'src/internal';
+import { SectionPageName } from './section-page.constants';
 
 @Controller('section-page')
 export class SectionPageController extends ControllerBlueprint {
+  public name = SectionPageName
   constructor(private readonly pageService: SectionPageService) { super(pageService) }
 
   @AuthAdmin()

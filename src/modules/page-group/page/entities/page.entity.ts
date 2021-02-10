@@ -9,6 +9,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, ManyToOn
 @Entity()
 export class Page extends EntityLocaleItemBlueprint {
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => PageLocale, pageLocale => pageLocale.item, { cascade: true, eager: true })
     locale: PageLocale[];
 

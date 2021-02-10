@@ -11,4 +11,5 @@ export class CreateProductVariationAttributeDto {
     @IsInt()
     attrValueId: ID
 
+   
 }

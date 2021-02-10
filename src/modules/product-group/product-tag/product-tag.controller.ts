@@ -5,9 +5,11 @@ import { UpdateProductTagDto } from './dto/update-product-tag.dto';
 import { ControllerBlueprint } from 'src/blueprints/controller';
 import { AuthAdmin, ID } from 'src/internal';
 import { GetRequestPayload, RequestPayload } from 'src/internal';
+import { ProductTagName } from './product-tag.constants';
 
 @Controller('product-tag')
 export class ProductTagController extends ControllerBlueprint {
+  public name = ProductTagName
   constructor(private readonly productTagService: ProductTagService) { super(productTagService) }
 
   @AuthAdmin()

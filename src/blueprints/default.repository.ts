@@ -5,16 +5,25 @@ import { FindOptionsUtils, Like, QueryBuilder, Repository, SelectQueryBuilder } 
 import { EntityDefaultBlueprint, RequestPayload } from 'src/internal';
 
 export class DefaultRepository<T extends EntityBase> extends Repository<T> {
-    public name = 'item'
-    populate(query: SelectQueryBuilder<T>, requestPayload: RequestPayload) {
+    public name: string = 'item'
+    populate(query: SelectQueryBuilder<T>, payload: RequestPayload) {
         FindOptionsUtils.joinEagerRelations(query, query.alias, query.expressionMap.mainAlias!.metadata)
         return query
     }
-    async search({ name }: { name: string }, payload: RequestPayload) {
+    restrictions(query: SelectQueryBuilder<T>, payload: RequestPayload) {
+        return query
+    }
+    orderBy(query: SelectQueryBuilder<T>, payload: RequestPayload) {
+        const orderBy = payload.getOrderBy(this.name)
+        query.orderBy({ [`${this.name}.sortOrder`]: 'DESC', ...orderBy })
+        return query
+    }
+    async search({ value, field = 'locale.name' }: { value: string, field?: string }, payload: RequestPayload) {
         const localeId = payload.getLocale().id
         const query = this.createQueryBuilder(this.name)
-            .leftJoinAndSelect('item.locale', 'locale')
-            .where('locale.name like :name AND locale.localeId = :localeId', { name: `%${name}%`, localeId })
+            .leftJoinAndSelect(`${this.name}.locale`, 'locale')
+            .where(`${field} like :value`, { value: `%${value}%`, })
+            .andWhere('locale.localeId = :localeId', { localeId })
         this.populate(query, payload)
         return this.findMany(query, payload)
     }
@@ -50,15 +59,16 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
         })
     }
     // With Query Builder
-    async findMany(queryBuilder: SelectQueryBuilder<T>, payload: RequestPayload): Promise<PaginationResponse<T>> {
+    async findMany(query: SelectQueryBuilder<T>, payload: RequestPayload): Promise<PaginationResponse<T>> {
         const pagination = payload.getPagination()
-        const orderBy = payload.getOrderBy(this.name)
         const perPage = pagination.perPage
         const page = pagination.page
         const skip = perPage * page;
-        queryBuilder.orderBy(orderBy)
-        const items = await queryBuilder.take(perPage).skip(skip).getMany()
-        const totalItems = await queryBuilder.getCount()
+        this.orderBy(query, payload)
+        this.populate(query, payload)
+        this.restrictions(query, payload)
+        const items = await query.take(perPage).skip(skip).getMany()
+        const totalItems = await query.getCount()
         let totalPages = Math.ceil(totalItems / perPage);
         if (perPage < 0) {
             totalPages = 1

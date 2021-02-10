@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { EntityLocaleDefaultBlueprint } from "src/blueprints";
 import { EntityBaseMetadata, ID, RequestPayload, SerializeGroup } from "src/internal";
 import { transformCurrency } from "src/modules/product-group/product.helpers";
@@ -12,9 +13,11 @@ export class Promocode extends EntityLocaleDefaultBlueprint {
     @Column({ default: PromocodeTypes.fixed })
     saleType: PromocodeTypes
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => PromocodeLocale, (pormocodeLocale) => pormocodeLocale.item, { cascade: true, eager: true })
     locale: PromocodeLocale[];
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => PromocodePrice, (promocodePrice) => promocodePrice.item, { cascade: true, eager: true })
     value: PromocodePrice[];
 

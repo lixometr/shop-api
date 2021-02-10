@@ -1,0 +1,1 @@
+export const ProductAttributeName = 'product-attribute'
