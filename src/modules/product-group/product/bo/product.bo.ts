@@ -1,32 +1,66 @@
 import { from } from "rxjs"
 import { map } from "rxjs/operators"
-import { ID } from "src/internal"
+import { ID, CartProductDto } from "src/internal"
 import { ProductOptionBo } from "src/internal";
+import { OrderProductItem } from "src/internal";
 import { Product } from "../entities/product.entity"
+import { ProductType } from "../product.types";
 
-type SerializedProduct = Product & { _isSerialized: true };
+// type SerializedProduct = Product & { _isSerialized: true };
 
 export class ProductBo {
-    private product: Product
+    private product: Product | OrderProductItem
     private activeOptions: { [key: number]: Array<ID> }
     private cnt: number
-    constructor({ product, activeOptions, cnt }: { product: SerializedProduct, activeOptions: { [key: number]: Array<ID> }, cnt: number }) {
+    private activeVariation: ID
+    constructor({ product, activeOptions, cnt, activeVariation }: CartProductDto) {
         this.product = product
         this.activeOptions = activeOptions
         this.cnt = cnt
-        // this.promocode = promocode
+        this.activeVariation = activeVariation
+    }
+    getActiveVariation() {
+        const idx = this.product.variations.findIndex(variation => variation.id === this.activeVariation)
+        if (idx < 0) return null
+        return this.product.variations[idx]
     }
     getPrice() {
+        const type = this.getType()
+        if (type === ProductType.simple) {
+            return this.getProductPrice()
+        } else if (type == ProductType.variation) {
+            const variation = this.getActiveVariation()
+            if (!variation) return this.getProductPrice()
+            return variation.price
+        }
+    }
+    getItem() {
+        return this.product
+    }
+    getType() {
+        return this.product.type
+    }
+    getProductPrice() {
         return this.product.price
     }
     getSale() {
-        return this.product.sale
+        return this.product.sale / 100
     }
-    getPromocodeSale() {
-        return 0.3
+    // getPromocodeSale() {
+    //     const promocodeBo = this.getPromocodeBo()
+    //     if (!promocodeBo) return 0
+    //     promocodeBo.getSale()
+    // }
+    getOptionsBo() {
+        return this.product.options.map(option => new ProductOptionBo({ option }))
     }
+    // getPromocodeBo() {
+    //     if(!this.promocode) return null
+    //     return new PromocodeBo({ product: this.product, promocode: this.promocode })
+    // }
     getOptionsPrice() {
-        const options = this.product.options.filter(option => {
+        const options = this.getOptionsBo().filter(optionBo => {
+            const option = optionBo.getItem()
             if (!(option.id in this.activeOptions)) return false
             const optId = option.id
             option.values = option.values.filter(optionValue => {
@@ -35,7 +69,7 @@ export class ProductBo {
             return true
         })
         const optionsPrice = options.reduce((sum, option) => {
-            return sum + new ProductOptionBo({ option }).getPrice()
+            return sum + option.getPrice()
         }, 0)
         return optionsPrice
     }
@@ -50,16 +84,15 @@ export class ProductBo {
                 return price * this.getCnt()
             }))
             .pipe(map(price => {
-                return price * 1 - this.getSale()
+                return price * (1 - this.getSale())
             }))
             .pipe(map(price => {
                 return price + this.getOptionsPrice()
             }))
-            .pipe(map(price => {
-                return price * 1 - this.getPromocodeSale()
-            }))
-            .subscribe()
-
+            // .pipe(map(price => {
+            //     return price * (1 - this.getPromocodeSale())
+            // }))
+            .subscribe(price => totalPrice = price)
 
         return totalPrice
     }

@@ -6,6 +6,9 @@ export class ProductOptionBo {
     constructor({ option }: { option: ProductOption }) {
         this.option = option
     }
+    getItem() {
+        return this.option
+    }
     getValues() {
         return this.option.values || []
     }

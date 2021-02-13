@@ -12,11 +12,11 @@ export class SectionPageListenerService extends ListenerItemBlueprint {
     constructor(private itemService: SectionPageService) {
         super(itemService)
     }
-    @OnEvent(`section-page.${EventName.beforeCreate}`)
+    @OnEvent(`${SectionPageName}.${EventName.beforeCreate}`)
     async preCreate(data: { data: CreateSectionPageDto, payload: RequestPayload }) {
         return super.preCreate(data)
     }
-    @OnEvent(`section-page.${EventName.beforeUpdate}`)
+    @OnEvent(`${SectionPageName}.${EventName.beforeUpdate}`)
     async preUpdate(data: { data: CreateSectionPageDto, id: ID, payload: RequestPayload }) {
         return super.preUpdate(data)
     }

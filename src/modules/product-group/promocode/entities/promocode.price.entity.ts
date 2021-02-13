@@ -17,8 +17,7 @@ export class PromocodePrice  {
   @ManyToOne(() => Currency, { nullable: false })
   currency: Currency;
 
-  // До 1 млн
-  @Column({ type: 'float', precision: 40, scale: 2 })
-  price: number;
+  @Column()
+  sale: number;
 
 }

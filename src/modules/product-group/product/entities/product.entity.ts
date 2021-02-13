@@ -93,12 +93,8 @@ export class Product extends EntityLocaleItemBlueprint {
   transformCurrency(currencyId: ID) {
     return transformCurrency(this, currencyId, 'prices');
   }
-  // sortItems() {
-  //   this.attributes.sort((a,b) => new Date(a.sortOrder).getTime() - new Date(b.sortOrder).getTime())
-  //   this.variations.sort((a,b) => new Date(a.sortOrder).getTime() - new Date(b.sortOrder).getTime())
-  // }
+
   async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-    // this.sortItems()
     if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
       const currency = payload.getCurrency();
       this.transformCurrency(currency.id);

@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
+import { ListenerItemBlueprint } from "src/blueprints";
 import { ID, RequestPayload } from "src/internal";
 import { EventName } from "src/internal";
 import { CreateProductDto } from "./dto/create-product.dto";
@@ -7,22 +8,17 @@ import { ProductName } from "./product.constants";
 import { ProductService } from "./product.service";
 
 @Injectable()
-export class ProductListenerService {
+export class ProductListenerService extends ListenerItemBlueprint {
     public name = ProductName
     constructor(private itemService: ProductService) {
+        super(itemService)
     }
-    @OnEvent(`product.${EventName.beforeCreate}`)
+    @OnEvent(`${ProductName}.${EventName.beforeCreate}`)
     async preCreate({ data, payload }: { data: CreateProductDto, payload: RequestPayload }) {
-        const slug = data.slug
-        const item = await this.itemService.findBySlug({ slug }, payload)
-        if (item) {
-            throw new BadRequestException('Item with such slug is already exists')
-        }
+        return super.preCreate({ data, payload })
     }
-    @OnEvent(`product.${EventName.beforeUpdate}`)
+    @OnEvent(`${ProductName}.${EventName.beforeUpdate}`)
     async preUpdate({ data, id, payload }: { data: CreateProductDto, id: ID, payload: RequestPayload }) {
-        const item = await this.itemService.findById({id}, payload)
-        if(item.slug === data.slug) return
-        return this.preCreate({ data, payload })
+        return super.preUpdate({ data, payload, id })
     }
 }

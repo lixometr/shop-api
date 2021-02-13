@@ -1,6 +1,6 @@
 import { AppConfig } from "src/config";
 import { FILTER_PARAM } from "src/constants";
-import { AppRequest, PaginationDto, ProductFilters, ProductFiltersDto } from "src/internal";
+import { AppRequest, PaginationDto, ProductFilters, ProductFiltersDto, User, UserAdmin } from "src/internal";
 import { Currency, Locale } from "src/internal";
 import { OrderByDto, OrderByEntity } from "src/internal";
 
@@ -10,6 +10,7 @@ export interface RequestPayloadProps {
     pagination?: PaginationDto,
     filters?: ProductFilters,
     orderBy?: OrderByDto,
+    // user?: User
 }
 
 export class RequestPayload {
@@ -19,7 +20,7 @@ export class RequestPayload {
     public filters?: ProductFilters
     // orderBy=createdAt&order=DESC&orderBy=updateAt&order=ASC
     public orderBy?: OrderByDto
-    // public user
+    // public user?: User
     constructor(payload: RequestPayloadProps) {
         Object.assign(this, payload)
         this.init()
@@ -65,6 +66,9 @@ export class RequestPayload {
     }
     setPagination(pagination: PaginationDto) {
         this.pagination = pagination
+    }
+    getUser(): any  {
+        return this.request.user
     }
     getPagination(): PaginationDto {
         if (this.pagination) return this.pagination

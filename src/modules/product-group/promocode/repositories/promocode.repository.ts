@@ -6,4 +6,6 @@ import { PromocodeName } from "../promocode.constants";
 @EntityRepository(Promocode)
 export class PromocodeRepository extends DefaultRepository<Promocode>{
     public name = PromocodeName
+
+
 }

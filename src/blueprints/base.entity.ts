@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import * as _ from 'lodash';
-import { EntityDefaultBlueprint } from 'src/internal';
+import { EntityDefaultBlueprint, RequestPayload } from 'src/internal';
 
 export interface EntityBaseMetadata {
   groups: Array<string>;
@@ -9,7 +9,7 @@ export interface EntityBaseMetadata {
 export class EntityBase {
   @Exclude()
   public _isSerialized?= false
-  async serialize(metadata: EntityBaseMetadata, payload: any): Promise<this> {
+  async serialize(metadata: EntityBaseMetadata, payload: RequestPayload): Promise<this> {
     const resolvers = Object.keys(this).map(async (key) => {
       const item = this[key];
       if (_.isArray(item)) {

@@ -15,7 +15,6 @@ export class CreateProductDto {
     @Type(() => LocaleProductDto)
     locale: LocaleProductDto[];
 
-
     @IsString()
     slug: string;
 

@@ -25,10 +25,17 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
             .where(`${field} like :value`, { value: `%${value}%`, })
             .andWhere('locale.localeId = :localeId', { localeId })
         this.populate(query, payload)
+        this.restrictions(query, payload)
         return this.findMany(query, payload)
     }
-    async findByName({ name }: { name: string }): Promise<T> {
-        return await this.findOne({ where: { name } })
+    async findByName({ name }: { name: string }, payload: RequestPayload): Promise<T> {
+        const localeId = payload.getLocale().id
+        const query = this.createQueryBuilder(this.name)
+            .leftJoinAndSelect(`${this.name}.locale`, 'locale')
+            .where(`locale.name = :name`, { name })
+            .andWhere('locale.localeId = :localeId', { localeId })
+        this.populate(query, payload)
+        return query.getOne()
     }
 
     async findById({ id, query }: { id: ID, query?: object }): Promise<T> {

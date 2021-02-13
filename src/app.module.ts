@@ -17,9 +17,10 @@ import { UserGroupModule } from './modules/user-group/user-group.module';
 import { AuthGroupModule } from './modules/auth-group/auth-group.module';
 import { ProductGroupModule } from './modules/product-group/product-group.module';
 import { PageGroupModule } from './modules/page-group/page-group.module';
-import { PromocodeModule } from './modules/promocode/promocode.module';
+import { OrderDeliveryModule } from './modules/product-group/order-group/order-delivery/order-delivery.module';
+import { OrderPaymentModule } from './modules/product-group/order-group/order-payment/order-payment.module';
 @Module({
-  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule,  UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule, PromocodeModule ],
+  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule,  UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule, OrderDeliveryModule, OrderPaymentModule ],
   controllers: [AppController],
   providers: [
     { provide: APP_FILTER, useClass: DatabaseFilter },

@@ -18,4 +18,5 @@ export class Currency extends EntityLocaleItemBlueprint {
     eager: true,
   })
   locale: CurrencyLocale[];
+  name: string
 }

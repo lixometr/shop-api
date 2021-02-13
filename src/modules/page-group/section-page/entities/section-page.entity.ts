@@ -2,7 +2,7 @@
 import { Column, Entity, ManyToOne, OneToMany, } from 'typeorm';
 import { SectionPageLocale } from "./section-page.tr.entity"
 import { EntityLocaleItemBlueprint } from 'src/blueprints';
-import { EntitySeo, Section, SerializeGroup } from 'src/internal';
+import {  Section, SerializeGroup } from 'src/internal';
 import { DELETE_OPTIONS } from 'src/constants';
 import { ID } from 'src/internal';
 import { Expose } from 'class-transformer';
