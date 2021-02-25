@@ -19,7 +19,7 @@ export class SerializeInterceptor implements NestInterceptor {
     const groups = options.groups || []
     return next.handle().pipe(concatMap(async (data: EntityBase) => {
       if (data instanceof EntityBase) {
-        return await data.serialize({ groups }, new RequestPayload({ request: req, groups }))
+        return await data.serialize(new RequestPayload({ request: req, groups }))
       }
       return data
     }))

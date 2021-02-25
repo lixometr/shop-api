@@ -11,6 +11,15 @@ export class ProductCategoryLocale extends EntityTranslationBlueprint {
     @Column()
     name: string
 
+    @Column({nullable: true})
+    title: string
+
+    @Column({nullable: true})
+    textTop: string
+
+    @Column({nullable: true})
+    textBottom: string
+
     @Column(type => EntitySeo)
     seo: EntitySeo
 }

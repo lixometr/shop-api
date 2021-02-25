@@ -11,6 +11,19 @@ export class LocaleProductCategoryDto {
     @IsString()
     name: string;
     
+    @IsOptional()
+    @IsString()
+    title: string
+
+    @IsOptional()
+    @IsString()
+    textTop: string
+
+    @IsOptional()
+    @IsString()
+    textBottom: string
+
+
     @IsInt()
     localeId: ID;
 

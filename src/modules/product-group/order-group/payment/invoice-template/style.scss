@@ -1,0 +1,116 @@
+$border: 1px solid #000;
+
+* {
+    font-family: inherit;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0;
+    font-size: 14px;
+}
+
+.padding {
+    padding: 5px;
+}
+
+table {
+    width: 100%;
+}
+
+.border {
+    border: $border;
+}
+
+.border-top {
+    border-top: $border;
+}
+
+.border-bottom {
+    border-bottom: $border;
+}
+
+.border-left {
+    border-left: $border;
+}
+
+.border-right {
+    border-right: $border;
+}
+
+.invoice-wrapper {
+    font-family: sans-serif;
+}
+
+.invoice-header {
+    border: 1px solid #000;
+}
+
+
+h2 {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 40px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #000;
+}
+
+.invoice-items {
+    margin-top: 80px;
+
+    table {
+        border: 2px solid #000;
+        border-bottom: none;
+        border-left: none;
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+            border: $border;
+            border-left: 2px solid #000;
+            border-right: none;
+            border-top: none;
+        }
+
+        tfoot {
+            td {
+                border: none;
+                font-size: 14px;
+                font-weight: bold;
+                &:nth-child(5) {
+                    text-align: right;
+                }
+                border: none;
+
+                &:last-child {
+                    border: $border;
+                    border-left: 2px solid #000;
+                    border-right: none;
+                    border-top: none;
+                    text-align: left;
+                }
+            }
+
+        }
+    }
+}
+.invoice-total-text {
+    margin-top: 50px;
+    font-size: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+    > div:first-child {
+        margin-bottom: 10px;
+    }
+}
+
+.invoice-contacts {
+    margin-top: 60px;
+    font-size: 20px;
+}
+.invoice-contact {
+    margin-bottom: 30px;
+    font-size: 20px;
+    span {
+        margin-left: 20px;
+        display: inline-block;
+    }
+}

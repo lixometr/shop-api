@@ -4,24 +4,7 @@ import { CreateImageDto, CreateProductOptionDto, CreateProductVariationDto, ID, 
 import { CartProductActiveOptions } from "src/internal";
 import { CreateOrderProductItemDto } from "./create-order-product-item.dto";
 
-export class ToCreateOrderProductDto {
 
-    @IsNotEmptyObject()
-    @IsObject()
-    @ValidateNested()
-    @Type(() => IdDto)
-    product: IdDto
-    
-    @IsObject()
-    @Type(() => CartProductActiveOptions)
-    activeOptions: CartProductActiveOptions
-
-    @IsInt()
-    cnt: number
-
-    @IsInt()
-    activeVariation: ID
-}
 export class CreateOrderProductDto {
 
     @IsObject()
@@ -30,6 +13,7 @@ export class CreateOrderProductDto {
     @Type(() => CreateOrderProductItemDto)
     product: CreateOrderProductItemDto
     
+    @IsOptional()
     @IsObject()
     @Type(() => CartProductActiveOptions)
     activeOptions: CartProductActiveOptions
@@ -37,6 +21,7 @@ export class CreateOrderProductDto {
     @IsInt()
     cnt: number
 
+    @IsOptional()
     @IsInt()
     activeVariation: ID
 }

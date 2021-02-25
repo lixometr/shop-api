@@ -1,13 +1,13 @@
 import { IPagination } from "src/internal";
 import { PaginationResponse } from "../index";
-import { EntityBaseMetadata } from "src/internal";
 import { RequestPayload } from "src/internal";
 import { ProductAttribute } from "src/internal";
 import { Product } from "src/internal";
+import { AttributeFilters } from "./product-filters.types";
 
-interface ProductFilterseResponseDto extends IPagination<Product>{
+interface ProductFilterseResponseDto extends IPagination<Product> {
     filters: {
-        attributes: Array<ProductAttribute>,
+        attributes: AttributeFilters[],
         price: [number, number]
     }
 }
@@ -17,8 +17,8 @@ export class ProductFiltersResponse extends PaginationResponse<Product>{
         super(item)
         Object.assign(item)
     }
-    serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-        
-        return super.serialize(metadata, payload)
+    serialize(payload: RequestPayload) {
+
+        return super.serialize(payload)
     }
 }

@@ -1,9 +1,8 @@
-
 import { LOCALE_PROP } from "src/constants";
 import { ID, SerializeGroup } from "src/internal";
 import * as _ from "lodash"
 import { Exclude } from "class-transformer";
-import { EntityBaseMetadata, RequestPayload } from "src/internal";
+import {  RequestPayload } from "src/internal";
 import { EntityBase, EntityDefaultBlueprint, EntityItemBlueprint } from "./index"
 export interface EntityLocale extends EntityBase {
     translate(localeId: ID, recursive?: boolean): void
@@ -58,14 +57,14 @@ const mixin = <TBase extends Constructor>(Base: TBase) => class EntityLocale ext
         }
         recursiveTranslate(this)
     }
-    async serialize(metadata: EntityBaseMetadata, payload: RequestPayload): Promise<this> {
-        if (metadata.groups.includes(SerializeGroup.Translate)) {
+    async serialize(payload: RequestPayload): Promise<this> {
+        if (payload.getGroups().includes(SerializeGroup.Translate)) {
             const localeId = payload.getLocale().id
             if (localeId) {
                 this.translate(localeId)
             }
         }
-        return super.serialize(metadata, payload)
+        return super.serialize( payload)
     }
 };
 

@@ -1,12 +1,11 @@
-import { from } from "rxjs"
-import { map } from "rxjs/operators"
 import { ID, CartProductDto } from "src/internal"
 import { ProductOptionBo } from "src/internal";
 import { OrderProductItem } from "src/internal";
 import { Product } from "../entities/product.entity"
 import { ProductType } from "../product.types";
-
+import * as _ from "lodash"
 // type SerializedProduct = Product & { _isSerialized: true };
+
 
 export class ProductBo {
     private product: Product | OrderProductItem
@@ -15,7 +14,7 @@ export class ProductBo {
     private activeVariation: ID
     constructor({ product, activeOptions, cnt, activeVariation }: CartProductDto) {
         this.product = product
-        this.activeOptions = activeOptions
+        this.activeOptions = activeOptions || {}
         this.cnt = cnt
         this.activeVariation = activeVariation
     }
@@ -26,7 +25,7 @@ export class ProductBo {
     }
     getPrice() {
         const type = this.getType()
-        if (type === ProductType.simple) {
+        if (type === ProductType.simple || type === ProductType.kit) {
             return this.getProductPrice()
         } else if (type == ProductType.variation) {
             const variation = this.getActiveVariation()
@@ -76,24 +75,38 @@ export class ProductBo {
     getCnt() {
         return this.cnt
     }
+    getCntSale() {
+        return this.product.cntSale
+    }
+    applyCnt(price: number) {
+        return price * this.getCnt()
+    }
+    applyOptions(price: number) {
+        return price + this.getOptionsPrice()
+    }
+    applyCntSale(price: number) {
+        const cnt = this.getCnt()
+        const cntSaleValue = this.getCntSale()
+        cntSaleValue.sort((a, b) => a.cnt - b.cnt)
+        // [ { cnt: 1, sale: 10 }, { cnt: 5, sale: 20 } ]
+        const cntSale = cntSaleValue.find((current, idx) => {
+            if (current.cnt > cnt) return false
+            const next = cntSaleValue[idx+1]
+            if (next) {
+                if(next.cnt < cnt) return false
+            }
+            return true
+        })
+        const sale = cntSale ? cntSale.sale / 100 : 1
+        return price * sale
+    }
     getTotalPrice(): number {
-        let totalPrice = 0
         let price = this.getPrice()
-        from([price])
-            .pipe(map(price => {
-                return price * this.getCnt()
-            }))
-            .pipe(map(price => {
-                return price * (1 - this.getSale())
-            }))
-            .pipe(map(price => {
-                return price + this.getOptionsPrice()
-            }))
-            // .pipe(map(price => {
-            //     return price * (1 - this.getPromocodeSale())
-            // }))
-            .subscribe(price => totalPrice = price)
-
+        let totalPrice = price
+        totalPrice = this.applyCnt(totalPrice)
+        totalPrice = this.applyCntSale(totalPrice)
+        totalPrice = this.applyOptions(totalPrice)
         return totalPrice
     }
 }
+

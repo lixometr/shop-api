@@ -1,4 +1,4 @@
-import { EntityBase, EntityBaseMetadata, IPagination, RequestPayload } from "src/internal";
+import { EntityBase,  IPagination, RequestPayload } from "src/internal";
 
 export class PaginationInfoDto {
     perPage: number;
@@ -16,11 +16,11 @@ export class PaginationResponse<T extends EntityBase> extends EntityBase impleme
         Object.assign(this, item)
     }
 
-    async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-        const resolvers = this.items.map((item: T) => item.serialize(metadata, payload))
+    async serialize(payload: RequestPayload) {
+        const resolvers = this.items.map((item: T) => item.serialize(payload))
         const items = await Promise.all(resolvers)
         this.items = items
-        return super.serialize(metadata, payload)
+        return super.serialize(payload)
 
     }
 }

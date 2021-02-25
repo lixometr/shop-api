@@ -22,4 +22,12 @@ export class CreateProductTagDto {
     @IsOptional()
     @IsInt()
     sortOrder: number
+    
+    @IsOptional()
+    @IsString()
+    color: string
+
+    @IsOptional()
+    @IsString()
+    color2: string
 }

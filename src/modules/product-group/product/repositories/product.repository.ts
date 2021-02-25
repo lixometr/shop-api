@@ -1,22 +1,26 @@
-import { RequestPayload, DefaultRepository } from 'src/internal';
+import { RequestPayload, DefaultRepository, IAvailableFilters } from 'src/internal';
 import { Attribute } from 'src/internal';
 import { ID, SerializeGroup } from 'src/types';
-import { EntityRepository, SelectQueryBuilder } from 'typeorm';
+import { EntityRepository, getRepository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { filterItems, getFilters } from "src/internal"
 import { ProductFiltersResponse } from 'src/internal';
 import { ProductName } from '../product.constants';
 import { ProductStatus } from '../product.types';
+import { ProductCategoryRepository } from '../../product-category/repositories/category.repository';
+import { ProductCategory } from '../../product-category';
+import { BadRequestException } from '@nestjs/common';
 @EntityRepository(Product)
 export class ProductRepository extends DefaultRepository<Product> {
     public name = ProductName
+
     QFindByCategoryId({ id }, payload: RequestPayload) {
         return this.createQueryBuilder(this.name)
-            .leftJoinAndSelect(`${this.name}.category`, 'category')
-            .where('category.id = :id', { id })
+            .leftJoinAndSelect(`${this.name}.category`, '_category')
+            .where('_category.id = :id', { id })
 
     }
-    
+
     restrictions(query: SelectQueryBuilder<Product>, payload: RequestPayload) {
         super.restrictions(query, payload)
         const groups = payload.getGroups()
@@ -27,14 +31,25 @@ export class ProductRepository extends DefaultRepository<Product> {
     }
     async findByCategoryId({ id }: { id: ID }, payload: RequestPayload) {
         const query = this.QFindByCategoryId({ id }, payload)
-        this.populate(query, payload)
         return await this.findMany(query, payload)
     }
-    async findWithFilters({ query, availableFilters }: { query: SelectQueryBuilder<Product>, availableFilters?: Attribute[] }, payload: RequestPayload) {
+    async findSimilarItems({ id }: { id: ID }, payload: RequestPayload) {
+        const item = await this.findById({ id })
+        if(!item) throw new BadRequestException('Item with such id not found')
+        const catIds = item.category.map(cat => cat.id)
+        if(!catIds || catIds.length < 1)  catIds.push(-1)
+        const query = this.createQueryBuilder(this.name)
+            .leftJoinAndSelect(`${this.name}.category`, '_category')
+            .where(`_category.id  IN (:...ids)`, { ids: catIds })
+            .andWhere(`${this.name}.id <> :id`, {id})
+        return this.findMany(query, payload)
+
+    }
+    async findWithFilters({ query, availableFilters }: { query: SelectQueryBuilder<Product>, availableFilters?: IAvailableFilters }, payload: RequestPayload) {
         this.populate(query, payload)
         this.orderBy(query, payload)
         this.restrictions(query, payload)
-       
+
         let items = await query.getMany()
         const currency = payload.getCurrency()
         items = items.map(item => {
@@ -53,7 +68,13 @@ export class ProductRepository extends DefaultRepository<Product> {
     async findByCategoryIdWithFilters({ id }, payload: RequestPayload) {
         const query = this.QFindByCategoryId({ id }, payload)
         // can add available filters
-        return this.findWithFilters({ query }, payload)
+        const categoryRepository = getRepository(ProductCategory)
+        const category = await categoryRepository.findOne({ where: { id } })
+        const availableFilters = {
+            attributes: category.availableFilterAttributes,
+            price: category.showFilterPrice
+        }
+        return this.findWithFilters({ query, availableFilters }, payload)
     }
 
     async findAllWithFilters({ }, payload: RequestPayload) {

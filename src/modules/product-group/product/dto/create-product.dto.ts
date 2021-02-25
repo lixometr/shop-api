@@ -1,10 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsString, IsInt, IsOptional, IsArray, ValidateNested, IsEnum, ArrayNotEmpty } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsArray, ValidateNested, IsEnum, ArrayNotEmpty, IsBoolean } from 'class-validator';
 import { IdDto } from 'src/internal';
 import { CreateProductAttributeDto } from 'src/internal';
 import { CreateProductOptionDto } from '../../product-option/dto/create-product-option.dto';
 import { CreateProductVariationDto } from '../../product-variation/dto/create-product-variation.dto';
 import { ProductStatus, ProductType } from '../product.types';
+import { CreateCntSale } from './create-cnt-sale.dto';
 import { CreateProductPriceDto } from './create-product-price.dto';
 import { LocaleProductDto } from './locale-product.dto';
 export class CreateProductDto {
@@ -75,9 +76,30 @@ export class CreateProductDto {
     @Type(() => CreateProductVariationDto)
     variations: CreateProductVariationDto[]
 
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => IdDto)
+    kitProducts: IdDto[]
+    
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => IdDto)
+    attendProducts: IdDto[]
+
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({each: true})
+    @Type(() => CreateCntSale)
+    cntSale: CreateCntSale[]
+
+    @IsOptional()
+    @IsBoolean()
+    showTags: boolean
 
     @IsString()
     sku: string;
 
-   
+
 }

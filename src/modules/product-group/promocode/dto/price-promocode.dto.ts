@@ -1,4 +1,4 @@
-import {  IsInt, IsNumber, IsOptional } from "class-validator";
+import {  IsInt, IsNumber, IsOptional, Max } from "class-validator";
 import { ID } from "src/types";
 
 export class CreatePromocodePriceDto {
@@ -9,7 +9,7 @@ export class CreatePromocodePriceDto {
     currencyId: ID;
 
     @IsNumber()
-    price: number;
+    sale: number;
 
 
     

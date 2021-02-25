@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsBoolean, IsInt, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, ValidateNested } from "class-validator";
 import { IdDto } from "src/helpers";
 import { Attribute, ID, UpdateAttributeDto } from "src/internal";
 
@@ -20,6 +20,9 @@ export class CreateProductAttributeDto {
     @Type(() => IdDto)
     attrValues: IdDto[]
 
+    @IsOptional()
+    @IsBoolean()
+    showInProduct: boolean
 
     @IsOptional()
     @IsObject()

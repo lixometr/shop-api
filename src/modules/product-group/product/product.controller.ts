@@ -21,18 +21,26 @@ export class ProductController extends ControllerBlueprint {
   }
 
   @AuthAdmin()
-  @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Admin]})
+  @SerializeOptions({ groups: [SerializeGroup.Full, SerializeGroup.Admin] })
   @Post()
   async create(@Body() product: CreateProductDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return super.create(product, requestPayload)
   }
 
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
+  @Get('id/:id/similar')
+  findSimilarProducts(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
+    return this.productService.findSimilarItems({ id }, payload)
+  }
+
   @AuthAdmin()
-  @SerializeOptions({groups: [SerializeGroup.Full, SerializeGroup.Admin]})
+  @SerializeOptions({ groups: [SerializeGroup.Full, SerializeGroup.Admin] })
   @Put('id/:id')
   update(@Param('id') id: ID, @Body() updateDto: UpdateProductDto) {
     return super.update(id, updateDto)
   }
+
+
 
   // @Get('filters')
   // async findWithFilters(@GetRequestPayload() requestPayload: RequestPayload) {

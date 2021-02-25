@@ -1,7 +1,9 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreateOrderProductDto, IdDto } from "src/internal";
-import { ToCreateOrderProductDto } from "./create-order-product.dto";
+import { CreateOrderInfoDto } from "./create-order-info.dto";
+import { ToCreateOrderDeliveryDto } from "./to-create-order-delivery.dto";
+import { ToCreateOrderProductDto } from "./to-create-order-product.dto";
 
 export class ToCreateOrderDto {
 
@@ -15,11 +17,19 @@ export class ToCreateOrderDto {
     @IsString()
     promocode: string
 
+    @IsObject()
+    @ValidateNested()
+    @Type(() => ToCreateOrderDeliveryDto)
+    delivery: ToCreateOrderDeliveryDto
+    
     @IsString()
-    deliveryType: string    
+    paymentType: string    
 
-    @IsString()
-    orderType: string
+    @IsObject()
+    @IsNotEmptyObject()
+    @ValidateNested()
+    @Type(() => CreateOrderInfoDto)
+    info: CreateOrderInfoDto
 
 
 }

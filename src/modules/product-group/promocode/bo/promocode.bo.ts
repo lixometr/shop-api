@@ -4,10 +4,8 @@ import { PromocodeTypes } from "../promocode.types"
 
 export class PromocodeBo {
     private promocode: Promocode
-    private product?: Product
-    constructor({ promocode, product }: { promocode: Promocode, product?: Product }) {
+    constructor({ promocode }: { promocode: Promocode }) {
         this.promocode = promocode
-        this.product = product
     }
     getType() {
         return this.promocode.saleType
@@ -24,10 +22,11 @@ export class PromocodeBo {
     apply(price: number): number {
         let currentPrice = price
         if (this.getType() === PromocodeTypes.fixed) {
-            currentPrice = currentPrice - (1 - this.getSale())
+            currentPrice = currentPrice - this.getSale()
         } else if (this.getType() === PromocodeTypes.percent) {
             currentPrice = currentPrice * (1 - this.getSale())
         }
+        if(currentPrice < 0) currentPrice = 0
         return currentPrice
     }
 }

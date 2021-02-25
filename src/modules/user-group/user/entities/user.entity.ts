@@ -5,45 +5,48 @@ import { Column, Entity, OneToMany } from "typeorm";
 import { Roles } from "../user.types";
 
 @Entity()
-export class User extends EntityDefaultBlueprint{
-    @Column()
-    firstName: string;
+export class User extends EntityDefaultBlueprint {
+  @Column()
+  firstName: string;
 
-    @Column({nullable: true})
-    lastName: string;
+  @Column({ nullable: true })
+  lastName: string;
 
-    @Column({unique: true})
-    email: string;
+  @Column({ unique: true })
+  email: string;
 
-    @Exclude()
-    @Column()
-    password?: string;
+  @Column({ nullable: true })
+  phone: string
 
-    @Exclude()
-    @Column({nullable: true})
-    confirmKey?: string;
+  @Exclude()
+  @Column()
+  password?: string;
 
-    @Exclude({})
-    @Column({nullable: true})
-    restoreKey?: string;
-    
-    @Exclude()
-    @Column({default: false})
-    isConfirmed?: boolean;
+  @Exclude()
+  @Column({ nullable: true })
+  confirmKey?: string;
 
-    @Exclude()
-    @Column({type: 'varchar', default: Roles.USER})
-    role?: Roles;
+  @Exclude({})
+  @Column({ nullable: true })
+  restoreKey?: string;
 
-    @OneToMany(() => ProductReview, productReview => productReview.user)
-    reviews: ProductReview
+  @Exclude()
+  @Column({ default: false })
+  isConfirmed?: boolean;
+
+  @Exclude()
+  @Column({ type: 'varchar', default: Roles.USER })
+  role?: Roles;
+
+  @OneToMany(() => ProductReview, productReview => productReview.user)
+  reviews: ProductReview
 }
 
 /*
 
   phone: String,
 
-  
+
   keep_update: {
     type: Boolean,
     default: false

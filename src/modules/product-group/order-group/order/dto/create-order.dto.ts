@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { ArrayNotEmpty, IsArray, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreateOrderProductDto, IdDto } from "src/internal";
 import { CreateOrderCurrencyDto } from "./create-order-currency.dto";
-import { CreateOrderDeliveryTypeDto } from "./create-order-delivery-type.dto";
+import { CreateOrderDeliveryDto } from "./create-order-delivery.dto";
 import { CreateOrderInfoDto } from "./create-order-info.dto";
 import { CreateOrderLocaleDto } from "./create-order-locale.dto";
 import { CreateOrderPaymentTypeDto } from "./create-order-payment-type.dto";
@@ -25,14 +25,14 @@ export class CreateOrderDto {
     @IsObject()
     @IsNotEmptyObject()
     @ValidateNested()
-    @Type(() => CreateOrderDeliveryTypeDto)
-    deliveryType: CreateOrderDeliveryTypeDto
+    @Type(() => CreateOrderDeliveryDto)
+    delivery: CreateOrderDeliveryDto
 
     @IsObject()
     @IsNotEmptyObject()
     @ValidateNested()
     @Type(() => CreateOrderPaymentTypeDto)
-    orderType: CreateOrderPaymentTypeDto
+    paymentType: CreateOrderPaymentTypeDto
 
     @IsObject()
     @ValidateNested()
@@ -52,6 +52,7 @@ export class CreateOrderDto {
 
     @IsObject()
     @IsNotEmptyObject()
+    @ValidateNested()
     @Type(() => CreateOrderUserDto)
     user: CreateOrderUserDto
 
@@ -60,7 +61,7 @@ export class CreateOrderDto {
 
     @IsOptional()
     @IsString()
-    comment: string
+    comment?: string
 
     @IsNumber()
     totalPrice: number

@@ -6,6 +6,7 @@ import staticConf from "./modules/static";
 import db from "./modules/db"
 import domain from "./modules/domain"
 import upload from "./modules/upload"
+import order from "./modules/order"
 
 export default {
     NODE_ENV: process.env.NODE_ENV,
@@ -15,5 +16,6 @@ export default {
     user,
     db,
     domain,
-    upload
+    upload,
+    order
 }

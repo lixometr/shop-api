@@ -1,8 +1,9 @@
-import { IsInt, IsString } from "class-validator";
+import { Exclude } from "class-transformer";
+import { Allow, IsInt, IsString } from "class-validator";
 import { ID } from "src/internal";
 
 export class CreateOrderUserDto {
-    
+
     @IsInt()
     id: ID
 
@@ -10,8 +11,8 @@ export class CreateOrderUserDto {
     firstName: string
 
     @IsString()
-    lastName: string
-
-    @IsString()
     email: string;
+
+    // @Allow()
+    // role: any
 }

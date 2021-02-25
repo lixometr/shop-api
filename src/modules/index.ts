@@ -1,9 +1,8 @@
 export * from "./user-group/user"
 export * from "./user-group/userAdmin"
 export * from "./locale"
-export * from "./product-group/product-attribute"
-export * from "./product-group/attribute"
-export * from "./product-group/attribute-value"
+export * from "./settings"
+
 
 export * from "src/modules/product-group/product-category/dto/create-product-category.dto"
 export * from "src/modules/product-group/product-category/dto/update-product-category.dto"
@@ -15,7 +14,9 @@ export * from "./page-group/section-page"
 
 export * from "./product-group/promocode"
 
-
+export * from "./product-group/product-attribute"
+export * from "./product-group/attribute"
+export * from "./product-group/attribute-value"
 export * from  "./product-group/product-category"
 
 export * from "./product-group/cart"
@@ -26,8 +27,8 @@ export * from "./product-group/product-variation"
 export * from "./product-group/currency"
 export * from "./product-group/cart"
 export * from "./product-group/order-group/order"
-export * from "./product-group/order-group/order-delivery"
-export * from "./product-group/order-group/order-payment"
+export * from "./product-group/order-group/delivery"
+export * from "./product-group/order-group/payment"
 
 export * from "./product-group/product"
 

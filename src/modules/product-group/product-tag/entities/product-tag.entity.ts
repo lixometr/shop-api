@@ -15,4 +15,10 @@ export class ProductTag extends EntityLocaleItemBlueprint {
 
     @ManyToMany(() => Product, product => product.tags)
     products: Product[]
+
+    @Column({nullable: true})
+    color: string
+    
+    @Column({nullable: true})
+    color2: string
 }

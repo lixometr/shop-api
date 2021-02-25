@@ -1,10 +1,14 @@
 import { EntityDefaultBlueprint, Product, ProductOption, ProductType, ProductVariation } from "src/internal";
 import { Column, Entity, ManyToOne } from "typeorm";
-import { ID, Image, SLUG } from "src/internal";
+import { ID, Image, SLUG, ProductCntSale } from "src/internal";
 import { Order } from "./order.entity";
+import { DELETE_OPTIONS } from "src/constants";
 export type OrderProductItemType = Pick<Product, "name" | "slug" | "price" | "oldPrice" | "sale" | "options" | "defaultImage" | "type" | "variations" | "rating" | "sku">;
 
 export class OrderProductItem implements OrderProductItemType {
+    id: ID
+    status: any
+    category: any
     name: string
     slug: SLUG
     price: number
@@ -16,6 +20,7 @@ export class OrderProductItem implements OrderProductItemType {
     variations: ProductVariation[]
     rating: number
     sku: string
+    cntSale: ProductCntSale[]
 }
 
 @Entity()
@@ -33,6 +38,6 @@ export class OrderProduct extends EntityDefaultBlueprint {
     @Column({ type: 'json' })
     product: OrderProductItem
 
-    @ManyToOne(() => Order, order => order.products)
+    @ManyToOne(() => Order, order => order.products, DELETE_OPTIONS)
     order: Order
 }

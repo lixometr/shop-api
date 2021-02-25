@@ -8,5 +8,6 @@ export enum ProductStatus {
 
 export enum ProductType {
     simple = 'simple',
-    variation = 'variation'
+    variation = 'variation',
+    kit = 'kit'
 }

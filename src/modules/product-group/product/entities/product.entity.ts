@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
-import { CASCADE_NOT_INSERT } from 'src/constants';
-import { EntityLocaleItemBlueprint, EntitySeo, ProductToLocale, SLUG } from 'src/internal';
+import { CASCADE_NOT_INSERT, DELETE_OPTIONS } from 'src/constants';
+import { EntityLocaleItemBlueprint, EntitySeo, ProductLocale, SLUG } from 'src/internal';
 import { ProductAttribute } from 'src/internal';
 import { ProductCategory } from 'src/internal';
 import { ProductTag } from 'src/internal';
@@ -16,7 +16,6 @@ import {
 import { ProductStatus, ProductType } from '../product.types';
 import { Image } from 'src/internal';
 import { RequestPayload } from 'src/internal';
-import { EntityBaseMetadata } from 'src/internal';
 import { ProductPrice } from 'src/internal';
 import { transformCurrency } from '../../product.helpers';
 import * as _ from 'lodash';
@@ -24,6 +23,9 @@ import { ProductOption } from '../../product-option/entities/product-option.enti
 import { ID } from 'src/internal';
 import { ProductReview } from 'src/internal';
 import { ProductVariation } from '../../product-variation/entities/product-variation.entity';
+import { ProductKit } from './product-kit.entity';
+import { ProductCntSale } from './product-cnt-sale.entity';
+import { ProductAttend } from './product-attend.entity';
 @Entity({})
 export class Product extends EntityLocaleItemBlueprint {
 
@@ -44,7 +46,7 @@ export class Product extends EntityLocaleItemBlueprint {
   @OneToMany(() => ProductOption, (productOption) => productOption.product, { eager: true, cascade: true })
   options: ProductOption[];
 
-  @ManyToOne(() => Image, { cascade: CASCADE_NOT_INSERT, eager: true, nullable: true })
+  @ManyToOne(() => Image, { cascade: CASCADE_NOT_INSERT, eager: true, nullable: true, onDelete: 'SET NULL' })
   defaultImage: Image;
 
   @Expose({ groups: [SerializeGroup.Full, SerializeGroup.AdminFull] })
@@ -56,13 +58,17 @@ export class Product extends EntityLocaleItemBlueprint {
   status: ProductStatus;
 
   @Expose({ groups: [SerializeGroup.Admin] })
-  @OneToMany(() => ProductToLocale, (productToLocale) => productToLocale.item, { cascade: true, eager: true })
-  locale: ProductToLocale[];
+  @OneToMany(() => ProductLocale, (productLocale) => productLocale.item, { cascade: true, eager: true })
+  locale: ProductLocale[];
   name: string;
+  description: string;
 
   @ManyToMany(() => ProductTag, (pTag) => pTag.products, { cascade: CASCADE_NOT_INSERT, eager: true, nullable: true })
   @JoinTable()
   tags: ProductTag[];
+
+  @Column({ default: false })
+  showTags: boolean
 
   @OneToMany(() => ProductAttribute, (productAttr) => productAttr.product, { cascade: true, eager: true })
   attributes: ProductAttribute[];
@@ -87,18 +93,31 @@ export class Product extends EntityLocaleItemBlueprint {
   @Column({ default: ProductType.simple })
   type: ProductType
 
+  @Expose({ groups: [SerializeGroup.AdminFull, SerializeGroup.Full] })
+  @OneToMany(() => ProductKit, product => product.hostProduct, { cascade: CASCADE_NOT_INSERT, eager: true, })
+  kitProducts: ProductKit[]
+
+  // Сопутствующие
+  @Expose({ groups: [SerializeGroup.AdminFull, SerializeGroup.Full] })
+  @OneToMany(() => ProductAttend, productAttend => productAttend.hostProduct, { cascade: CASCADE_NOT_INSERT, eager: true })
+  attendProducts: ProductAttend
+
   @OneToMany(() => ProductVariation, productVariation => productVariation.product, { cascade: true, eager: true })
   variations: ProductVariation[]
+
+  @Expose({ groups: [SerializeGroup.Full, SerializeGroup.AdminFull] })
+  @OneToMany(() => ProductCntSale, cntSale => cntSale.item, { cascade: true, eager: true })
+  cntSale: ProductCntSale[]
 
   transformCurrency(currencyId: ID) {
     return transformCurrency(this, currencyId, 'prices');
   }
 
-  async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-    if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
+  async serialize(payload: RequestPayload) {
+    if (!payload.getGroups().includes(SerializeGroup.AdminFull)) {
       const currency = payload.getCurrency();
       this.transformCurrency(currency.id);
     }
-    return super.serialize(metadata, payload);
+    return super.serialize(payload);
   }
 }

@@ -22,8 +22,8 @@ export class PromocodeService extends ServiceBlueprint<Promocode> {
     if (!promocode) return false
     const user = payload.getUser()
     if (!user) return false
-    const nowDate = new Date()
     if (promocode.end_date) {
+      const nowDate = new Date()
       if (new Date(promocode.end_date).getTime() > nowDate.getTime()) return false
     }
     if (promocode.useCount > -1) {
@@ -53,7 +53,7 @@ export class PromocodeService extends ServiceBlueprint<Promocode> {
     const user = payload.getUser()
     if (!user) return false
     const idxInUsed = promocode.usedPerUser.findIndex(item => item.userId == user.id)
-    if (idxInUsed < 0) return false
+    if (idxInUsed < 0) return true
     const itemInUsed = promocode.usedPerUser[idxInUsed]
     const usedTimes = itemInUsed.times
     if (usedTimes > promocode.useUserCount) return false

@@ -1,3 +1,4 @@
+import { EntityBase } from "src/internal";
 
 
 export type ID = number;
@@ -18,3 +19,11 @@ export enum SerializeGroup {
     Full = 'full',
     Translate = 'translate'
 }
+
+export enum PublishStatus {
+    Published = 'published',
+    Draft = 'draft',
+    NotPublished = 'not-published'
+}
+
+export type Serialized<T extends EntityBase> = T | { _isSerialized: true }

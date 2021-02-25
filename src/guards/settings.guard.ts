@@ -1,9 +1,8 @@
 import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { SettingsService } from 'src/modules/settings/settings.service';
-import { LOCALE_DEFAULT_SLUG } from 'src/constants';
 import { LocaleService } from 'src/modules/locale/locale.service';
-import { RequestPayload } from 'src/internal';
+import { RequestPayload, SettingsNames } from 'src/internal';
 import { CurrencyService } from 'src/modules/product-group/currency/currency.service';
 import { CLASS_SERIALIZER_OPTIONS } from '@nestjs/common/serializer/class-serializer.constants';
 
@@ -25,7 +24,7 @@ export class SettingsGuard implements CanActivate {
         const localeSlug = headers['x-language'] || query.locale
         let locale = await this.localeService.findBySlug({ slug: localeSlug }, new RequestPayload({ request: req, groups }))
         if (!locale) {
-            const defaultLocaleId = await this.settingsService.findBySlug({ slug: LOCALE_DEFAULT_SLUG })
+            const defaultLocaleId = await this.settingsService.findBySlug({ slug: SettingsNames.localeDefault })
             locale = await this.localeService.findById({ id: defaultLocaleId })
         }
         req.settings.locale = locale || {}
@@ -33,7 +32,7 @@ export class SettingsGuard implements CanActivate {
         const currencySlug = headers['x-currency'] || query.currency
         let currency = await this.currencyService.findBySlug({ slug: currencySlug }, new RequestPayload({ request: req, groups }))
         if (!currency) {
-            const defaultCurrencyId = await this.settingsService.findBySlug({ slug: LOCALE_DEFAULT_SLUG })
+            const defaultCurrencyId = await this.settingsService.findBySlug({ slug: SettingsNames.currencyDefault })
             currency = await this.currencyService.findById({ id: defaultCurrencyId })
         }
         req.settings.currency = currency || {}

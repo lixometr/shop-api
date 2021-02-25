@@ -17,10 +17,11 @@ import { UserGroupModule } from './modules/user-group/user-group.module';
 import { AuthGroupModule } from './modules/auth-group/auth-group.module';
 import { ProductGroupModule } from './modules/product-group/product-group.module';
 import { PageGroupModule } from './modules/page-group/page-group.module';
-import { OrderDeliveryModule } from './modules/product-group/order-group/order-delivery/order-delivery.module';
-import { OrderPaymentModule } from './modules/product-group/order-group/order-payment/order-payment.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { WidgetModule } from './modules/widget/widget.module';
+import { MailModule } from './modules/mail/mail.modules';
 @Module({
-  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule,  UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule, OrderDeliveryModule, OrderPaymentModule ],
+  imports: [ServeStaticModule, EventEmiterModule, DatabaseModule, UserGroupModule, AuthGroupModule, LocaleModule, SettingsModule, UploadModuleGroup, ProductGroupModule, PageGroupModule, NotificationModule, WidgetModule, MailModule],
   controllers: [AppController],
   providers: [
     { provide: APP_FILTER, useClass: DatabaseFilter },

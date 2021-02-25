@@ -24,4 +24,8 @@ export class ProductService extends ServiceBlueprint<Product>{
         return result
     }
 
+    async findSimilarItems({id}: {id: ID}, payload: RequestPayload) {
+        return this.productRepository.findSimilarItems({id}, payload)
+    }
+
 }

@@ -4,7 +4,7 @@ import { ServiceBlueprint } from 'src/blueprints/service';
 import { PasswordService } from '../password.service';
 import { ConfirmService } from '../confirm.service';
 import { UserRepository } from './repositories/user.repository';
-import { RequestPayload } from 'src/internal';
+import { ID, RequestPayload } from 'src/internal';
 import { User } from 'src/internal';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
@@ -23,13 +23,11 @@ export class UserService extends ServiceBlueprint<User>{
         const toCreate: any = { ...data }
         toCreate.password = await this.passwordService.hashPassword(data.password)
         toCreate.confirmKey = await this.confirmService.generateKey()
-        console.log(data)
-
         const result = await super.create({data: toCreate}, payload)
         return result
     }
-    async checkPassword(userId, password: string): Promise<boolean> {
-        const user = await this.findById(userId)
+    async checkPassword(userId: ID, password: string): Promise<boolean> {
+        const user = await this.findById({id: userId})
         return await this.passwordService.comparePassword(password, user.password)
     }
     async confirm(key: string): Promise<true> {

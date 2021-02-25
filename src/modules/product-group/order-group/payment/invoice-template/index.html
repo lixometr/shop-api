@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="dist/style.css">
+    <style>
+        * {
+            font-family: inherit;
+            padding: 0;
+            margin: 0;
+            border-spacing: 0;
+            font-size: 14px;
+        }
+
+        .padding {
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        .border {
+            border: 1px solid #000;
+        }
+
+        .border-top {
+            border-top: 1px solid #000;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid #000;
+        }
+
+        .border-left {
+            border-left: 1px solid #000;
+        }
+
+        .border-right {
+            border-right: 1px solid #000;
+        }
+
+        .invoice-wrapper {
+            font-family: sans-serif;
+        }
+
+        .invoice-header {
+            border: 1px solid #000;
+        }
+
+        h2 {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 40px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #000;
+        }
+
+        .invoice-items {
+            margin-top: 80px;
+        }
+
+        .invoice-items table {
+            border: 2px solid #000;
+            border-bottom: none;
+            border-left: none;
+        }
+
+        .invoice-items table th,
+        .invoice-items table td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #000;
+            border-left: 2px solid #000;
+            border-right: none;
+            border-top: none;
+        }
+
+        .invoice-items table tfoot td {
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+        }
+
+        .invoice-items table tfoot td:nth-child(5) {
+            text-align: right;
+        }
+
+        .invoice-items table tfoot td:last-child {
+            border: 1px solid #000;
+            border-left: 2px solid #000;
+            border-right: none;
+            border-top: none;
+            text-align: left;
+        }
+
+        .invoice-total-text {
+            margin-top: 50px;
+            font-size: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+
+        .invoice-total-text>div:first-child {
+            margin-bottom: 10px;
+        }
+
+        .invoice-contacts {
+            margin-top: 60px;
+            font-size: 20px;
+        }
+
+        .invoice-contact {
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
+
+        .invoice-contact span {
+            margin-left: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice">
+        <table class="border">
+            <tbody>
+                <tr>
+                    <td class="padding">
+                        Банк получателя <span>123 bank</span>
+                    </td>
+                    <td class="border-left">
+                        <table>
+                            <tr>
+                                <td width="120" class="border-bottom border-right padding">БИК</td>
+                                <td class="padding">121232132131233</td>
+                            </tr>
+                            <tr>
+                                <td class="border-right padding">
+                                    СЧ №
+                                </td>
+                                <td class="padding">122131231231231233</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="border-top" height="150">
+                    <td>
+                        <table class="border-top ">
+                            <tr height="40">
+                                <td class="padding border-bottom">
+                                    ИНН <span>21321321321321313</span>
+                                </td>
+                                <td class="border-left border-bottom padding">
+                                    КПП <span>213112312312321323</span>
+                                </td>
+                            </tr>
+                            <tr height="110" class="">
+                                <td class="padding " valign="bottom">Получатель <span>Иванов Иван Иванович</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="border-left" valign="top">
+                        <table height="150" class="border-top ">
+                            <tr>
+                                <td valign="top" width="120" class="padding border-right">Сч №</td>
+                                <td valign="top" class="padding">123</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Счет на оплату № 20 от "20" сентября 2020г.</h2>
+        <div class="invoice-items">
+            <table>
+                <thead>
+                    <th width="70">№</th>
+                    <th width="500">Наименование</th>
+                    <th width="100">Количество</th>
+                    <th width="200">Ед. из.</th>
+                    <th width="250">Цена</th>
+                    <th width="300">Сумма</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Продукт 1</td>
+                        <td>10</td>
+                        <td>р</td>
+                        <td>1000</td>
+                        <td>10 000р</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Продукт 1</td>
+                        <td>10</td>
+                        <td>р</td>
+                        <td>1000</td>
+                        <td>10 000р</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Итого:</td>
+                        <td>100р </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>В том числе НДС:</td>
+                        <td>20р </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Всего к оплате:</td>
+                        <td>120р </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="invoice-total-text">
+            <div> Всего наименований 2, на сумму 100 рублей 00 копеек </div>
+            <div> <b>Сто двадцать рублей ноль копеек</b></div>
+        </div>
+        <div class="invoice-contacts">
+            <div class="invoice-contact">
+                <b>Руководитель: </b>
+                <span>Иван Иванов</span>
+            </div>
+            <div class="invoice-contact">
+                <b>Главный бухгалтер: </b>
+                <span>Иван Иванов</span>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,6 +1,8 @@
 import { Type } from "class-transformer";
-import { IsArray, IsEnum, IsInt, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { CreateImageDto, CreateProductOptionDto, CreateProductVariationDto, ID, IdDto, ProductStatus, ProductType } from "src/internal";
+import { Allow, IsArray, IsEnum, IsInt, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { CreateImageDto, CreateProductOptionDto, CreateProductVariationDto, ID, IdDto, ProductCategory, ProductStatus, ProductType, ProductVariation } from "src/internal";
+import { CreateProductCategoryDto } from "src/internal";
+import { CreateCntSale } from "src/modules/product-group/product/dto/create-cnt-sale.dto";
 
 export class CreateOrderProductItemDto {
 
@@ -35,15 +37,15 @@ export class CreateOrderProductItemDto {
     @Type(() => CreateImageDto)
     defaultImage: CreateImageDto
 
-    @IsEnum(ProductStatus)
+    @Allow()
     status: ProductStatus;
 
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => IdDto)
-    category: IdDto[]
+    @Type(() => CreateProductCategoryDto)
+    category: CreateProductCategoryDto[]
 
-    @IsEnum(ProductType)
+    @Allow()
     type: ProductType
 
     @IsOptional()
@@ -55,5 +57,9 @@ export class CreateOrderProductItemDto {
     @IsString()
     sku: string;
 
+    @IsOptional()
+    @ValidateNested({each: true})
+    @Type(() => CreateCntSale)
+    cntSale: CreateCntSale[]
 
 }

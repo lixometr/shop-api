@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsNumber, IsString } from "class-validator"
+import { Allow, IsInt, IsNumber, IsString } from "class-validator"
 import { ID, PromocodeTypes } from "src/internal"
 
 export class CreateOrderPromocodeDto {
@@ -6,8 +6,8 @@ export class CreateOrderPromocodeDto {
     @IsInt()
     id: ID
 
-    @IsEnum(PromocodeTypes)
-    saleType: PromocodeTypes
+    @Allow()
+    saleType: any
 
     @IsNumber()
     sale: number

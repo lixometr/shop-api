@@ -26,6 +26,7 @@ export class ControllerBlueprint {
     return await this.service.create({ data: createDto }, requestPayload);
   }
 
+  @AuthAdmin()
   @SerializeOptions({ groups: [SerializeGroup.Info, SerializeGroup.Translate] })
   @Get()
   async findAll(

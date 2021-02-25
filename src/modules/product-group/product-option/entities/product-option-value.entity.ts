@@ -7,7 +7,6 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import {
-    EntityBaseMetadata,
     Product,
     RequestPayload,
 } from 'src/internal';
@@ -50,12 +49,12 @@ export class ProductOptionValue extends EntityLocaleDefaultBlueprint {
     transformCurrency(currencyId: ID) {
         return transformCurrency(this, currencyId, 'prices');
     }
-    async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-        if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
+    async serialize(payload: RequestPayload) {
+        if (!payload.getGroups().includes(SerializeGroup.AdminFull)) {
             const currency = payload.getCurrency();
             this.transformCurrency(currency.id);
         }
 
-        return super.serialize(metadata, payload);
+        return super.serialize( payload);
     }
 }

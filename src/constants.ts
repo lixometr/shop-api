@@ -4,7 +4,6 @@ export const ROLES_KEY = 'roles'
 export const ROLES_ADMIN_KEY = 'roles_admin'
 export const LOCALE_PROP = 'locale'
 
-export const LOCALE_DEFAULT_SLUG = 'localeDefault'
 
 export const FILTER_PARAM = 'filters'
 

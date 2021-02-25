@@ -1,4 +1,4 @@
-import { EntityBaseMetadata, EntityLocaleDefaultBlueprint, EntitySeo, RequestPayload, SerializeGroup, } from "src/internal";
+import {  EntityLocaleDefaultBlueprint, EntitySeo, RequestPayload, SerializeGroup, } from "src/internal";
 import { DELETE_OPTIONS } from "src/constants";
 import { ID } from "src/internal";
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
@@ -51,11 +51,11 @@ export class ProductVariation extends EntityLocaleDefaultBlueprint {
   transformCurrency(currencyId: ID) {
     return transformCurrency(this, currencyId, 'prices');
   }
-  async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-    if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
+  async serialize( payload: RequestPayload) {
+    if (!payload.getGroups().includes(SerializeGroup.AdminFull)) {
       const currency = payload.getCurrency();
       this.transformCurrency(currency.id);
     }
-    return super.serialize(metadata, payload);
+    return super.serialize( payload);
   }
 }

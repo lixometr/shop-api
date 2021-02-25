@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {
-  EntityBaseMetadata,
   Product,
   RequestPayload,
 } from 'src/internal';

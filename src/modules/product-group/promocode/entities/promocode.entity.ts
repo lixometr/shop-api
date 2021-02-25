@@ -1,6 +1,6 @@
 import { Exclude, Expose } from "class-transformer";
 import { EntityLocaleDefaultBlueprint } from "src/blueprints";
-import { EntityBaseMetadata, ID, RequestPayload, SerializeGroup } from "src/internal";
+import {  ID, RequestPayload, SerializeGroup } from "src/internal";
 import { transformCurrency } from "src/modules/product-group/product.helpers";
 import { Column, Entity, OneToMany } from "typeorm";
 import { PromocodeTypes } from "../promocode.types";
@@ -50,11 +50,11 @@ export class Promocode extends EntityLocaleDefaultBlueprint {
     transformCurrency(currencyId: ID) {
         return transformCurrency(this, currencyId, 'value');
     }
-    async serialize(metadata: EntityBaseMetadata, payload: RequestPayload) {
-        if (!metadata.groups.includes(SerializeGroup.AdminFull)) {
+    async serialize( payload: RequestPayload) {
+        if (!payload.getGroups().includes(SerializeGroup.AdminFull)) {
             const currency = payload.getCurrency();
             this.transformCurrency(currency.id);
         }
-        return super.serialize(metadata, payload);
+        return super.serialize( payload);
     }
 }

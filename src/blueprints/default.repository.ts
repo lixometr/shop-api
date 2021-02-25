@@ -46,6 +46,7 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
     }
     // With Object
     async findWithPagination(query: object, payload: RequestPayload): Promise<PaginationResponse<T>> {
+        // return this.findMany(this.createQueryBuilder(this.name), payload)
         const pagination = payload.getPagination()
         const orderBy: any = payload.getOrderBy()
         const perPage = pagination.perPage
@@ -67,6 +68,7 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
     }
     // With Query Builder
     async findMany(query: SelectQueryBuilder<T>, payload: RequestPayload): Promise<PaginationResponse<T>> {
+
         const pagination = payload.getPagination()
         const perPage = pagination.perPage
         const page = pagination.page
@@ -74,7 +76,10 @@ export class DefaultRepository<T extends EntityBase> extends Repository<T> {
         this.orderBy(query, payload)
         this.populate(query, payload)
         this.restrictions(query, payload)
-        const items = await query.take(perPage).skip(skip).getMany()
+        if (pagination.perPage > 0) {
+            query.take(perPage).skip(skip)
+        }
+        const items = await query.getMany()
         const totalItems = await query.getCount()
         let totalPages = Math.ceil(totalItems / perPage);
         if (perPage < 0) {
