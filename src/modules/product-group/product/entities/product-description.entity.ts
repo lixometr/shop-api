@@ -9,7 +9,7 @@ export class ProductDescription {
     id: ID
 
     @ManyToOne(() => ProductLocale, pLocale => pLocale.description, DELETE_OPTIONS)
-    productLocale: ProductLocale
+    locale: ProductLocale
 
     @Column({nullable: true})
     tab: string

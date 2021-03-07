@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsDate, IsEnum, IsIn, IsInt, IsOptional, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsDate, IsDateString, IsEnum, IsIn, IsInt, IsOptional, ValidateNested } from "class-validator";
 import { PromocodeTypes } from "../promocode.types";
 import { CreateLocalePromocodeDto } from "./locale-promocode.dto";
 import { CreatePromocodePriceDto } from "./price-promocode.dto";
@@ -33,8 +33,8 @@ export class CreatePromocodeDto {
     useUserCount: number
 
     @IsOptional()
-    @IsDate()
-    end_date: string
+    @IsDateString()
+    endDate: string
 
     @IsOptional()
     @IsInt()

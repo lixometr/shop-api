@@ -10,11 +10,11 @@ export class EntityDefaultBlueprint extends EntityBase {
     @PrimaryGeneratedColumn()
     id: ID;
 
-    @Exclude()
+    @Expose({ groups: [SerializeGroup.Admin] })
     @CreateDateColumn()
     createdAt?: string;
 
-    @Exclude()
+    @Expose({ groups: [SerializeGroup.Admin] })
     @UpdateDateColumn()
     updatedAt?: string;
 

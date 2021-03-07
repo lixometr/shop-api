@@ -7,6 +7,7 @@ export class CreateCurrencyDto {
     @IsString()
     slug: string;
 
+    @IsOptional()
     @IsString()
     sign: string;
 

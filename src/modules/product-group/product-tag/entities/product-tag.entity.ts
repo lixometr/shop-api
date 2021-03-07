@@ -6,9 +6,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 't
 @Entity()
 export class ProductTag extends EntityLocaleItemBlueprint {
    
-    @Column()
-    value: string;
-
+    
     @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => ProductTagLocale, productTagLocale => productTagLocale.item, { cascade: true, eager: true })
     locale: ProductTagLocale[];

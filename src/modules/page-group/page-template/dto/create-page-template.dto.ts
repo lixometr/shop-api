@@ -13,16 +13,17 @@ export class PageTemplateFieldDto {
     name: string;
 
     @IsString()
-    var_name: string;
+    varName: string;
 
     @IsString()
     type: string;
 
+    @IsOptional()
     @IsBoolean()
     required: boolean;
 
     @IsOptional()
-    @IsBoolean()
+    @IsString()
     comment: string;
 
     @IsOptional()

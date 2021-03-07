@@ -10,7 +10,7 @@ export class DatabaseFilter extends BaseExceptionFilter {
     const response = ctx.getResponse();
     const request = ctx.getRequest<Request>();
 
-    response.json({
+    response.status(HttpStatus.BAD_REQUEST).json({
       statusCode: HttpStatus.BAD_REQUEST,
       message: process.env.NODE_ENV === 'development' ? exception.message : '',
       error: exception.name,

@@ -11,6 +11,9 @@ export const databaseProviders = [
         password: AppConfig.get<string>('db.password'),
         database: AppConfig.get<string>('db.name'),
         autoLoadEntities: true,
+        extra: {
+            charset: "utf8mb4_unicode_ci"
+        },
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}'
         ],

@@ -16,45 +16,50 @@ export class ProductCategoryController extends ControllerBlueprint {
     private productService: ProductService
   ) { super(itemService) }
 
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   @AuthAdmin()
   @Post()
   async create(@Body() data: CreateProductCategoryDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.create({ data }, requestPayload)
   }
-  
+
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   @AuthAdmin()
   @Put('id/:id')
   async update(@Param('id', new ParseIntPipe()) id: ID, @Body() data: UpdateProductCategoryDto, @GetRequestPayload() requestPayload: RequestPayload) {
     return super.update(id, data, requestPayload)
   }
 
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
   @Get('/tree')
   findTrees() {
     return this.itemService.findTrees({})
   }
-
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
   @Get('id/:id/breadcrumbs')
-  findBreadcrumbs(@Param('id', new ParseIntPipe()) id: ID,) {
+  findBreadcrumbs(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.findBreadcrumbsById({ id })
   }
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
 
   @Get('id/:id/children')
-  findChildren(@Param('id', new ParseIntPipe()) id: ID,) {
+  findChildren(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.findChildrenById({ id })
   }
-
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
   @Get('id/:id/children-tree')
-  findChildrenTree(@Param('id', new ParseIntPipe()) id: ID,) {
+  findChildrenTree(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.findChildrenTreeById({ id })
   }
 
+  @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
   @Get('id/:id/parents')
-  findParents(@Param('id', new ParseIntPipe()) id: ID,) {
-    return this.itemService.findParentsById({ id })
+  findParents(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
+    return this.itemService.findParentsById({ id }, requestPayload)
   }
 
   @Get('id/:id/parents-tree')
-  findParentsTree(@Param('id', new ParseIntPipe()) id: ID,) {
+  findParentsTree(@Param('id', new ParseIntPipe()) id: ID, @GetRequestPayload() requestPayload: RequestPayload) {
     return this.itemService.findParentsTreeById({ id })
   }
 

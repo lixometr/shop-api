@@ -11,6 +11,7 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthAdmin } from "src/decorators/authAdmin.decorator"
 import { GetRequestPayload } from 'src/internal';
 import { RequestPayload } from 'src/internal';
+import { ResOk } from 'src/internal';
 @Controller('auth-admin')
 export class AuthAdminController {
   constructor(private readonly authAdminService: AuthAdminService) { }
@@ -26,10 +27,12 @@ export class AuthAdminController {
     return this.authAdminService.signup(data, requestPayload)
   }
 
+  
+
   @AuthAdmin()
-  @Get('test')
-  async test(@Request() req: AuthRequest) {
-    return req.user
+  @Get('check')
+  check() {
+    return new ResOk()
   }
 
 

@@ -44,10 +44,18 @@ export class ControllerBlueprint {
     return await this.service.findAll({}, requestPayload);
   }
 
-  @SerializeOptions({ groups: [SerializeGroup.Info, SerializeGroup.Translate] })
+  @AuthAdmin()
+  @SerializeOptions({ groups: [SerializeGroup.AdminInfo, SerializeGroup.Admin, SerializeGroup.Translate] })
   @Get('search/:name')
   async search(@Param('name') name: string, @GetRequestPayload() requestPayload: RequestPayload): Promise<any> {
     return this.service.search({ name }, requestPayload)
+  }
+  
+  @AuthAdmin()
+  @SerializeOptions({ groups: [SerializeGroup.AdminInfo, SerializeGroup.Admin, SerializeGroup.Translate] })
+  @Get('search/')
+  async searchAll( @GetRequestPayload() requestPayload: RequestPayload): Promise<any> {
+    return this.service.search({ name: undefined }, requestPayload)
   }
 
   @SerializeOptions({ groups: [SerializeGroup.Full, SerializeGroup.Translate] })

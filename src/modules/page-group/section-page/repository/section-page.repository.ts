@@ -9,10 +9,14 @@ import { SectionPageName } from '../section-page.constants';
 export class SectionPageRepository extends DefaultRepository<SectionPage> {
     public name = SectionPageName
     async findBySectionId({ id }, payload: RequestPayload): Promise<PaginationResponse<SectionPage>> {
-        return this.findWithPagination({
-            where: {
-                sectionId: id
-            }
-        }, payload)
+        const query = this.createQueryBuilder(this.name)
+            .where(`${this.name}.sectionId = :id`, { id })
+        return this.findMany(query, payload)
+    }
+
+    async searchBySectionId({ sectionId, value }, payload: RequestPayload) {
+        const query = this.QSearch({ value }, payload)
+        query.andWhere(`${this.name}.sectionId = :sectionId`, { sectionId })
+        return this.findMany(query, payload)
     }
 }

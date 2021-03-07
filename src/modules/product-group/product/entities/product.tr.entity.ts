@@ -16,7 +16,7 @@ export class ProductLocale extends EntityTranslationBlueprint {
   @Column()
   name: string;
 
-  @OneToMany(() => ProductDescription, pDescription => pDescription.productLocale, { cascade: true, eager: true })
+  @OneToMany(() => ProductDescription, pDescription => pDescription.locale, { cascade: true, eager: true })
   description: ProductDescription[];
 
   @Column(type => EntitySeo)

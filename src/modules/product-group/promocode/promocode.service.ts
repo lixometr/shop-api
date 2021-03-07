@@ -22,9 +22,9 @@ export class PromocodeService extends ServiceBlueprint<Promocode> {
     if (!promocode) return false
     const user = payload.getUser()
     if (!user) return false
-    if (promocode.end_date) {
+    if (promocode.endDate) {
       const nowDate = new Date()
-      if (new Date(promocode.end_date).getTime() > nowDate.getTime()) return false
+      if (new Date(promocode.endDate).getTime() > nowDate.getTime()) return false
     }
     if (promocode.useCount > -1) {
       if (promocode.usedTimes >= promocode.useCount) return false

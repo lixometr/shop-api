@@ -1,4 +1,5 @@
 import { ConflictException } from '@nestjs/common';
+import { RequestPayload } from 'src/helpers';
 import { ArrayResponse, DefaultRepository, ID, ProductCategory } from 'src/internal';
 import { DeleteResult, EntityManager, EntityRepository, Repository, Transaction, TreeRepository } from 'typeorm';
 import { ProductCategoryName } from '../product-category.constants';
@@ -40,8 +41,13 @@ export class ProductCategoryRepository extends DefaultRepository<ProductCategory
     async findParents(category: ProductCategory) {
         return await this.treeRepository.findAncestors(category)
     }
-    async findParentsById({ id }: { id: ID }) {
-        const Response = await this.findBreadcrumbsById({ id })
+    async findParentsById({ id }: { id: ID }, payload: RequestPayload) {
+        const item = await this.findById({ id })
+        const query = this.treeRepository.createAncestorsQueryBuilder(this.name, 'parent', item)
+        this.populate(query, payload)
+        let items = await query.getMany()
+        items = items.reverse()
+        const Response = new ArrayResponse(items)
         await Response.changeItems(items => items.filter(item => item.id !== id))
         return Response
     }
@@ -66,10 +72,6 @@ export class ProductCategoryRepository extends DefaultRepository<ProductCategory
     }
 
 
-    async findProductsById({ id }) {
-        const category = await this.findById({ id, query: { relations: ['products'] } })
-        return category.products
-    }
 
     async deleteById({ id }: { id: ID }) {
         const items = await this.createQueryBuilder()

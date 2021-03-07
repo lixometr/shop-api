@@ -20,21 +20,24 @@ export class ServiceBlueprint<T extends EntityBase>{
         return result
     }
     async search({ name }, payload: RequestPayload) {
-        return this.repository.search({ value: name }, payload)
+        if(name) {
+            return this.repository.search({ value: name }, payload)
+
+        } else {
+            return this.findAll({}, payload)
+        }
     }
     async findAll({ }, payload: RequestPayload): Promise<PaginationResponse<T>> {
         await this.event.emitAsync(`${this.name}.${EventName.beforeFindAll}`, { payload })
 
-        const result = await this.findWithPagination({
+        const result = await this.repository.findAll({
             query: {}
         }, payload)
         await this.event.emitAsync(`${this.name}.${EventName.afterFindAll}`, { result, payload })
         return result
 
     }
-    async findWithPagination({ query }: { query: object }, payload: RequestPayload): Promise<PaginationResponse<T>> {
-        return await this.repository.findWithPagination(query, payload)
-    }
+ 
 
 
     async findById({ id }: { id: ID }, payload?: RequestPayload): Promise<T> {
@@ -63,7 +66,7 @@ export class ServiceBlueprint<T extends EntityBase>{
     }
     async findBySlug({ slug }: { slug: SLUG }, payload: RequestPayload): Promise<T> {
         await this.event.emitAsync(`${this.name}.${EventName.beforeFindBySlug}`, { slug, payload })
-        const result = await this.repository.findBySlug({ slug })
+        const result = await this.repository.findBySlug({ slug }, payload)
         await this.event.emitAsync(`${this.name}.${EventName.afterFindBySlug}`, { slug, result, payload })
         return result
     }

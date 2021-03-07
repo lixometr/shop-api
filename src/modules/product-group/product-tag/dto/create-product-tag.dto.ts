@@ -4,9 +4,7 @@ import { LocaleProductTagDto } from "./locale-product.tag.dto";
 
 export class CreateProductTagDto {
     
-    @IsString()
-    name: string;
-    
+   
     @IsString()
     slug: string;
 
@@ -16,9 +14,7 @@ export class CreateProductTagDto {
     @Type(() => LocaleProductTagDto)
     locale: LocaleProductTagDto[]
 
-    @IsString()
-    value: string;
-
+    
     @IsOptional()
     @IsInt()
     sortOrder: number

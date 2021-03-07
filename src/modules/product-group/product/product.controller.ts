@@ -28,7 +28,7 @@ export class ProductController extends ControllerBlueprint {
   }
 
   @SerializeOptions({ groups: [SerializeGroup.Translate, SerializeGroup.Info] })
-  @Get('id/:id/similar')
+  @Get('id/:id/similar-products')
   findSimilarProducts(@Param('id') id: ID, @GetRequestPayload() payload: RequestPayload) {
     return this.productService.findSimilarItems({ id }, payload)
   }

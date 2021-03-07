@@ -24,7 +24,8 @@ export class SettingsGuard implements CanActivate {
         const localeSlug = headers['x-language'] || query.locale
         let locale = await this.localeService.findBySlug({ slug: localeSlug }, new RequestPayload({ request: req, groups }))
         if (!locale) {
-            const defaultLocaleId = await this.settingsService.findBySlug({ slug: SettingsNames.localeDefault })
+            const defaultLocale = await this.settingsService.findBySlug({ slug: SettingsNames.localeDefault })
+            const defaultLocaleId = defaultLocale?.value
             locale = await this.localeService.findById({ id: defaultLocaleId })
         }
         req.settings.locale = locale || {}
@@ -32,7 +33,8 @@ export class SettingsGuard implements CanActivate {
         const currencySlug = headers['x-currency'] || query.currency
         let currency = await this.currencyService.findBySlug({ slug: currencySlug }, new RequestPayload({ request: req, groups }))
         if (!currency) {
-            const defaultCurrencyId = await this.settingsService.findBySlug({ slug: SettingsNames.currencyDefault })
+            const defaultCurrency = await this.settingsService.findBySlug({ slug: SettingsNames.currencyDefault })
+            const defaultCurrencyId = defaultCurrency?.value
             currency = await this.currencyService.findById({ id: defaultCurrencyId })
         }
         req.settings.currency = currency || {}

@@ -30,7 +30,7 @@ export class ProductOption extends EntityLocaleDefaultBlueprint {
   })
   product: Product;
 
-  @Column({ enum: ProductOptionTypes })
+  @Column()
   type: ProductOptionTypes;
 
   @Column({ type: 'varchar', default: ProductOptionCostTypes.fixed })

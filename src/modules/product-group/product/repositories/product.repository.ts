@@ -1,6 +1,6 @@
 import { RequestPayload, DefaultRepository, IAvailableFilters } from 'src/internal';
 import { Attribute } from 'src/internal';
-import { ID, SerializeGroup } from 'src/types';
+import { ID, SerializeGroup } from 'src/internal';
 import { EntityRepository, getRepository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { filterItems, getFilters } from "src/internal"
@@ -20,7 +20,23 @@ export class ProductRepository extends DefaultRepository<Product> {
             .where('_category.id = :id', { id })
 
     }
-
+    // populate(query: SelectQueryBuilder<Product>, payload: RequestPayload) {
+    //     const groups = payload.getGroups()
+    //     if(groups.includes(SerializeGroup.AdminFull) ) {
+    //         return super.populate(query, payload)
+    //     }
+    //     query.leftJoinAndSelect(`${this.name}.category`, 'category')
+    //     query.leftJoinAndSelect(`${this.name}.prices`, 'prices')
+    //     query.leftJoinAndSelect(`${this.name}.locale`, 'locale')
+    //     query.leftJoinAndSelect(`${this.name}.attributes`, 'attributes')
+    //     query.leftJoinAndSelect(`${this.name}.defaultImage`, 'defaultImage')
+    //     query.leftJoinAndSelect(`${this.name}.variations`, 'variations')
+    //     query.leftJoinAndSelect(`attributes.attrValues`, 'attrValues')
+    //     query.leftJoinAndSelect(`attributes.attr`, 'attr')
+    //     query.leftJoinAndSelect(`attrValues.locale`, 'attrValuesLocale')
+    //     query.leftJoinAndSelect(`attr.locale`, 'attrLocale')
+    //     return query
+    // }
     restrictions(query: SelectQueryBuilder<Product>, payload: RequestPayload) {
         super.restrictions(query, payload)
         const groups = payload.getGroups()
@@ -35,13 +51,13 @@ export class ProductRepository extends DefaultRepository<Product> {
     }
     async findSimilarItems({ id }: { id: ID }, payload: RequestPayload) {
         const item = await this.findById({ id })
-        if(!item) throw new BadRequestException('Item with such id not found')
+        if (!item) throw new BadRequestException('Item with such id not found')
         const catIds = item.category.map(cat => cat.id)
-        if(!catIds || catIds.length < 1)  catIds.push(-1)
+        if (!catIds || catIds.length < 1) catIds.push(-1)
         const query = this.createQueryBuilder(this.name)
             .leftJoinAndSelect(`${this.name}.category`, '_category')
             .where(`_category.id  IN (:...ids)`, { ids: catIds })
-            .andWhere(`${this.name}.id <> :id`, {id})
+            .andWhere(`${this.name}.id <> :id`, { id })
         return this.findMany(query, payload)
 
     }

@@ -25,11 +25,11 @@ const multerParams: MulterOptions = {
 export class UploadController {
   constructor(private readonly uploadService: UploadService, private imageService: ImageService, private fileService: FileService) { }
   @Post('image')
-  @UseInterceptors(FileInterceptor('file', multerParams))
+  @UseInterceptors(FileInterceptor('image', multerParams))
   uploadImage(@UploadedFile() file, @Body('alt') alt: string, @GetRequestPayload() requestPayload: RequestPayload) {
     if(!file) throw new BadRequestException()
     return this.imageService.upload({ file, alt }, requestPayload)
-  }
+  } 
   @Post('file')
   @UseInterceptors(FileInterceptor('file', multerParams))
   upload(@UploadedFile() file, @GetRequestPayload() requestPayload: RequestPayload) {

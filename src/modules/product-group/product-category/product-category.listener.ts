@@ -26,6 +26,11 @@ export class ProductCategoryListenerService extends ListenerItemBlueprint {
     async beforeRemove({ id, payload }) {
         const item = await this.itemService.findById({ id }, payload)
         if (!item) return
-        await this.imageService.removeById({ id: item.image.id }, payload)
+        const images = [item.image]
+        const resolvers = images.map(async image => {
+            if(!image || image.id === undefined) return
+            return await this.imageService.removeById({ id: image.id }, payload)
+        })
+        await Promise.all(resolvers)
     }
 }

@@ -17,15 +17,15 @@ export class WidgetController extends ControllerBlueprint {
     return null
   }
 
-  @SerializeOptions({groups: [SerializeGroup.Admin, SerializeGroup.AdminFull]})
   @AuthAdmin()
+  @SerializeOptions({groups: [SerializeGroup.Admin, SerializeGroup.AdminFull]})
   @Put('/slug/:slug')
   updateBySlug(@Param('slug') slug: SLUG, @Body() data: any, @GetRequestPayload() payload: RequestPayload) {
     return this.widgetService.updateBySlug({ slug, data }, payload)
   }
 
-  @SerializeOptions({groups: [SerializeGroup.Admin, SerializeGroup.AdminFull]})
   @AuthAdmin()
+  @SerializeOptions({groups: [SerializeGroup.Admin, SerializeGroup.AdminFull]})
   @Put('/id/:id')
   updateById(@Param('id') id: ID, @Body() data, @GetRequestPayload() payload: RequestPayload) {
     return super.update(id, data, payload)

@@ -5,4 +5,7 @@ import { Entity, Column } from 'typeorm';
 export class Locale extends EntityItemBlueprint {
   @Column()
   name: string;
+
+  @Column({nullable: true})
+  iso: string
 }

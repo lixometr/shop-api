@@ -2,13 +2,14 @@
 import { ID } from 'src/internal';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Currency, ProductVariation } from 'src/internal';
+import { DELETE_OPTIONS } from 'src/constants';
 
 @Entity({})
 export class ProductVariationPrice  {
   @PrimaryGeneratedColumn()
   id: ID
   
-  @ManyToOne(() => ProductVariation, { nullable: false, orphanedRowAction: 'delete', onDelete: 'CASCADE' })
+  @ManyToOne(() => ProductVariation, DELETE_OPTIONS)
   item: ProductVariation;
 
   @Column()

@@ -6,7 +6,7 @@ import { CurrencyLocale } from './currency.tr.entity';
 
 @Entity()
 export class Currency extends EntityLocaleItemBlueprint {
-  @Column()
+  @Column({nullable: true})
   sign: string;
 
   @Column()

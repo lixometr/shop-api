@@ -13,13 +13,19 @@ export class PromocodeController extends ControllerBlueprint {
   findBySlug() { return null }
   findBySlugAdmin() { return null }
 
-  @SerializeOptions({ groups: [SerializeGroup.Full] })
+  @SerializeOptions({ groups: [SerializeGroup.Full, SerializeGroup.Translate] })
+  @Get('/name/:name')
+  findByName(@Param('name') name: string, @GetRequestPayload() payload: RequestPayload) {
+    return this.promocodeService.findByName({ name }, payload)
+  }
+
+  @SerializeOptions({ groups: [SerializeGroup.AdminFull, SerializeGroup.Admin] })
   @AuthAdmin()
   @Post()
   async create(@Body() data: CreatePromocodeDto, @GetRequestPayload() payload: RequestPayload) {
     return this.promocodeService.create({ data }, payload)
   }
-  @SerializeOptions({ groups: [SerializeGroup.Full] })
+  @SerializeOptions({ groups: [SerializeGroup.AdminFull] })
   @AuthAdmin()
   @Put('/id/:id')
   async update(@Param('id') id: ID, @Body() data: UpdatePromocodeDto, @GetRequestPayload() payload: RequestPayload) {

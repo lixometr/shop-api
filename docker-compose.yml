@@ -22,10 +22,10 @@ services:
       - backend
     depends_on:
       - db
-  redis:
-    image: "redis:alpine"
-    networks: 
-      - backend
+  # redis:
+  #   image: "redis:alpine"
+  #   networks: 
+  #     - backend
   db:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
@@ -42,6 +42,19 @@ services:
       - data1:/var/lib/mysql
     networks:
       - backend
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   restart: always
+  #   environment:
+  #     PMA_USER: ${DB_USER}
+  #     PMA_PASSWORD: ${DB_PASSWORD}
+  #     PMA_CONTROLUSER: ${PHP_MY_ADMIN_USER}
+  #     PMA_CONTROLPASS: ${PHP_MY_ADMIN_PASSWORD}
+  #   networks:
+  #     - backend
+  #   ports:
+  #     - "8090:80"
 networks:
   backend: 
 volumes: 

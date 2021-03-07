@@ -9,10 +9,15 @@ export class CreateProductAttributeDto {
     @IsInt()
     id: ID;
 
+    @IsOptional()
     @IsObject()
     @ValidateNested()
     @Type(() => IdDto)
     attr: IdDto
+
+
+    @IsInt()
+    attrId: ID
 
     @IsArray()
     @ArrayNotEmpty()

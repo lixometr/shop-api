@@ -9,10 +9,10 @@ export class LocaleNotificationLocaleDto {
     @IsInt()
     localeId: ID;
     
-    @IsOptional()
     @IsString()
     name: string;
 
+    @IsOptional()
     @IsString()
     text: string
 

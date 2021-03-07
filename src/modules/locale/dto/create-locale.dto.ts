@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class CreateLocaleDto {
     @IsString()
@@ -6,4 +6,12 @@ export class CreateLocaleDto {
 
     @IsString()
     slug: string;
+
+    @IsOptional()
+    @IsString()
+    iso: string
+
+    @IsOptional()
+    @IsInt()
+    sortOrder: number
 }

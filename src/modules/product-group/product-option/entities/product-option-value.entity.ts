@@ -41,6 +41,7 @@ export class ProductOptionValue extends EntityLocaleDefaultBlueprint {
     
     price: number;
 
+    @Expose({ groups: [SerializeGroup.Admin] })
     @OneToMany(() => ProductOptionValueLocale, (optValLocale) => optValLocale.item, { cascade: true, eager: true },)
     locale: ProductOptionValueLocale[];
 

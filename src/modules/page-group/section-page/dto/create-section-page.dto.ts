@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { ArrayNotEmpty, IsArray, IsIn, IsInt, IsNotEmptyObject, IsOptional, IsString, ValidateNested } from "class-validator";
-import { SeoDto } from "src/internal";
+import { IdDto, SeoDto } from "src/internal";
 import { ID } from "src/types";
 import { LocaleSectionPageDto } from "./locale-section-page.dto";
 
@@ -18,9 +18,14 @@ export class CreateSectionPageDto {
 
     @IsInt()
     sectionId: ID
-    
+
     @IsOptional()
     @IsInt()
     sortOrder: number
-    
+
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => IdDto)
+    tags: IdDto[]
 }

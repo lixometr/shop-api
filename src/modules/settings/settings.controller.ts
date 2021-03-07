@@ -13,7 +13,10 @@ export class SettingsController extends ControllerBlueprint {
   constructor(private readonly settingsService: SettingsService) { super(settingsService) }
 
   findAll() { return null }
-
+  search() {
+    return null
+  }
+  @SerializeOptions({ groups: [SerializeGroup.Admin, SerializeGroup.AdminFull] })
   @Post()
   @AuthAdmin()
   create(@Body() data: CreateSettingDto, @GetRequestPayload() payload: RequestPayload) {

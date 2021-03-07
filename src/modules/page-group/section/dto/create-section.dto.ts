@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { ArrayNotEmpty, IsArray, IsIn, IsInt, IsNotEmptyObject, IsOptional, IsString, ValidateNested } from "class-validator";
-import { SeoDto } from "src/internal";
+import { ID, SeoDto } from "src/internal";
 import { LocaleSectionDto } from "./locale-section.dto";
 
 export class CreateSectionDto {
@@ -15,7 +15,7 @@ export class CreateSectionDto {
     locale: LocaleSectionDto[]
 
     @IsInt()
-    templateId: number
+    templateId: ID
     
     @IsOptional()
     @IsInt()

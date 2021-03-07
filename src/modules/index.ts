@@ -11,6 +11,7 @@ export * from "./page-group/page-template"
 export * from "./page-group/page"
 export * from "./page-group/section"
 export * from "./page-group/section-page"
+export * from "./page-group/section-tag"
 
 export * from "./product-group/promocode"
 

@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { SignupAdminDto } from '../../auth-group/authAdmin/dto/signupAdmin.dto';
 import { PasswordService } from '../password.service';
 import { UserAdminRepository } from './repositories/userAdmin.repository';
-import { RequestPayload } from 'src/internal';
+import { ID, RequestPayload } from 'src/internal';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 @Injectable()
 export class UserAdminService extends ServiceBlueprint<UserAdmin>{
@@ -24,8 +24,8 @@ export class UserAdminService extends ServiceBlueprint<UserAdmin>{
         return result
 
     }
-    async checkPassword(userId, password: string): Promise<boolean> {
-        const user = await this.findById(userId)
+    async checkPassword(userId: ID, password: string): Promise<boolean> {
+        const user = await this.findById({id: userId})
         return await this.passwordService.comparePassword(password, user.password)
     }
     async findByLogin(login: string): Promise<UserAdmin> {

@@ -36,8 +36,8 @@ export class Promocode extends EntityLocaleDefaultBlueprint {
     useUserCount: number
 
     @Expose({groups: [SerializeGroup.Admin]})
-    @Column({ type: 'date', nullable: true })
-    end_date: string
+    @Column({  nullable: true })
+    endDate: Date
 
     @Expose({groups: [SerializeGroup.Admin]})
     @Column({ default: 0 })

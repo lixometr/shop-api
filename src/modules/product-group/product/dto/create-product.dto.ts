@@ -98,6 +98,7 @@ export class CreateProductDto {
     @IsBoolean()
     showTags: boolean
 
+    @IsOptional()
     @IsString()
     sku: string;
 
