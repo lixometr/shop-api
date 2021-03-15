@@ -52,7 +52,7 @@ services:
     networks:
       - backend
     ports:
-      - "8095:80"
+      - "8075:80"
 networks:
   backend: 
 volumes: 
