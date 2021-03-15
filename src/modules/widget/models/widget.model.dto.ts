@@ -5,6 +5,4 @@ export class WidgetModelDto {
     locale: any
     values: any;
 
-    @IsString()
-    slug: string
 }

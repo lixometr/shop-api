@@ -25,7 +25,7 @@ export class PromocodeController extends ControllerBlueprint {
   async create(@Body() data: CreatePromocodeDto, @GetRequestPayload() payload: RequestPayload) {
     return this.promocodeService.create({ data }, payload)
   }
-  @SerializeOptions({ groups: [SerializeGroup.AdminFull] })
+  @SerializeOptions({ groups: [SerializeGroup.AdminFull, SerializeGroup.Admin] })
   @AuthAdmin()
   @Put('/id/:id')
   async update(@Param('id') id: ID, @Body() data: UpdatePromocodeDto, @GetRequestPayload() payload: RequestPayload) {

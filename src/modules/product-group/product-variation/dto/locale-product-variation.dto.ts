@@ -1,6 +1,7 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsInt, IsOptional, IsString, ValidateNested } from "class-validator";
 import { ID, SeoDto } from "src/internal";
+import { CreateProductVariationDescription } from "./create-product-variation-description";
 
 export class LocaleProductVariationDto {
     @IsOptional()
@@ -9,8 +10,11 @@ export class LocaleProductVariationDto {
     @IsString()
     name: string;
   
-    @IsString()
-    description: string;
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({each: true})
+    @Type(() => CreateProductVariationDescription)
+    description: CreateProductVariationDescription[];
   
     @IsInt()
     localeId: ID;

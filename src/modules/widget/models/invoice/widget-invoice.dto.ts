@@ -4,6 +4,9 @@ import { WidgetModelDto } from "../widget.model.dto";
 class WidgetInvoiceValues {
     
     @IsString()
+    company: string
+
+    @IsString()
     inn: string
 
     @IsString()
@@ -12,17 +15,17 @@ class WidgetInvoiceValues {
     @IsString()
     kpp: string
 
-    @IsString()
-    bank: string
+    // @IsString()
+    // bank: string
 
-    @IsString()
-    bik: string
+    // @IsString()
+    // bik: string
 
-    @IsString()
-    rc: string
+    // @IsString()
+    // rc: string
     
-    @IsString()
-    kc: string
+    // @IsString()
+    // kc: string
 
 }
 export class WidgetInvoiceDto extends WidgetModelDto {

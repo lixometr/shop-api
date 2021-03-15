@@ -9,6 +9,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { ID } from 'src/internal';
 import {
   ProductOptionCostTypes,
   ProductOptionTypes,
@@ -16,6 +17,10 @@ import {
 import { CreateProductOptionValueDto } from './create-product-option-value.dto';
 import { LocaleProductOptionDto } from './locale-product-option.dto';
 export class CreateProductOptionDto {
+
+  @IsOptional()
+  @IsInt()
+  id: ID
 
   @IsArray()
   @ArrayNotEmpty()

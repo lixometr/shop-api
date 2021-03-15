@@ -29,7 +29,7 @@ export class WidgetService extends ServiceBlueprint<Widget>{
       const result = await model.validate(data)
 
       if(!item) {
-        const toCreate = {...result}
+        const toCreate = {...result, slug}
         item = await this.create({data: toCreate}, payload)
       }
       return this.updateById({ id: item.id, data: result }, payload)

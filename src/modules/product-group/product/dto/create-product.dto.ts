@@ -6,6 +6,7 @@ import { CreateProductOptionDto } from '../../product-option/dto/create-product-
 import { CreateProductVariationDto } from '../../product-variation/dto/create-product-variation.dto';
 import { ProductStatus, ProductType } from '../product.types';
 import { CreateCntSale } from './create-cnt-sale.dto';
+import { CreateKitProductDto } from './create-kit-product.dto';
 import { CreateProductPriceDto } from './create-product-price.dto';
 import { LocaleProductDto } from './locale-product.dto';
 export class CreateProductDto {
@@ -79,8 +80,8 @@ export class CreateProductDto {
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
-    @Type(() => IdDto)
-    kitProducts: IdDto[]
+    @Type(() => CreateKitProductDto)
+    kitProducts: CreateKitProductDto[]
     
     @IsOptional()
     @IsArray()

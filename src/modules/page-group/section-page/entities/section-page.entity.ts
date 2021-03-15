@@ -2,7 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, } from 'typeorm';
 import { SectionPageLocale } from "./section-page.tr.entity"
 import { EntityLocaleItemBlueprint } from 'src/blueprints';
-import {  Section, SectionTag, SerializeGroup } from 'src/internal';
+import {  PublishStatus, Section, SectionTag, SerializeGroup } from 'src/internal';
 import { CASCADE_NOT_INSERT, DELETE_OPTIONS } from 'src/constants';
 import { ID } from 'src/internal';
 import { Expose } from 'class-transformer';
@@ -19,6 +19,11 @@ export class SectionPage extends EntityLocaleItemBlueprint {
 
     @Column()
     sectionId: ID
+
+
+    @Column({default: PublishStatus.Published})
+    status: PublishStatus
+    
 
     @ManyToOne(() => Section, section => section.sectionPages, DELETE_OPTIONS)
     section: Section

@@ -1,10 +1,11 @@
 
-import { Column } from "typeorm";
+import { Column, Index } from "typeorm";
 import { EntityDefaultBlueprint } from ".";
 
 export  class EntityItemBlueprint extends EntityDefaultBlueprint {
    
-    @Column({ unique: false, length: 500, })
+    @Index()
+    @Column({  length: 500, })
     slug: string;
 
 }

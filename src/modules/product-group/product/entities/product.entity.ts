@@ -61,7 +61,10 @@ export class Product extends EntityLocaleItemBlueprint {
   @OneToMany(() => ProductLocale, (productLocale) => productLocale.item, { cascade: true, eager: true })
   locale: ProductLocale[];
   name: string;
+  @Expose({groups: [SerializeGroup.Full, SerializeGroup.AdminFull]})
   description: string;
+  @Expose({groups: [SerializeGroup.Full, SerializeGroup.AdminFull]})
+  seo: EntitySeo;
 
   @ManyToMany(() => ProductTag, (pTag) => pTag.products, { cascade: CASCADE_NOT_INSERT, eager: true, nullable: true })
   @JoinTable()
@@ -73,7 +76,7 @@ export class Product extends EntityLocaleItemBlueprint {
   @OneToMany(() => ProductAttribute, (productAttr) => productAttr.product, { cascade: true, eager: true })
   attributes: ProductAttribute[];
 
-  @Expose({ groups: [SerializeGroup.Full, SerializeGroup.Admin] })
+  // @Expose({ groups: [SerializeGroup.Full, SerializeGroup.Admin] })
   @ManyToMany(() => ProductCategory, (productCat) => productCat.products, { cascade: CASCADE_NOT_INSERT, eager: true })
   @JoinTable()
   category: ProductCategory[];
@@ -87,6 +90,7 @@ export class Product extends EntityLocaleItemBlueprint {
   @Column({ nullable: true })
   rating: number;
 
+  @Expose({groups: [SerializeGroup.Full, SerializeGroup.AdminFull]})
   @OneToMany(() => ProductReview, productReview => productReview.product)
   reviews: ProductReview[]
 
@@ -94,7 +98,7 @@ export class Product extends EntityLocaleItemBlueprint {
   type: ProductType
 
   @Expose({ groups: [SerializeGroup.AdminFull, SerializeGroup.Full] })
-  @OneToMany(() => ProductKit, product => product.hostProduct, { cascade: CASCADE_NOT_INSERT, eager: true, })
+  @OneToMany(() => ProductKit, product => product.hostProduct, { cascade: true, eager: true, })
   kitProducts: ProductKit[]
 
   // Сопутствующие

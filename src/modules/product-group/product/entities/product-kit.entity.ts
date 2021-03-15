@@ -7,6 +7,8 @@ export class ProductKit {
     @PrimaryGeneratedColumn()
     id: ID
 
+    @Column()
+    productId: ID
     // Сам продукт в наборе
     @ManyToOne(() => Product, DELETE_OPTIONS)
     product: Product

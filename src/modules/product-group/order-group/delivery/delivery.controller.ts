@@ -42,9 +42,22 @@ export class DeliveryController extends ControllerBlueprint {
     return this.deliveryService.findByType({ type: DeliveryTypes.pickup }, payload)
   }
 
+  @AuthAdmin()
+  @SerializeOptions({ groups: [SerializeGroup.AdminInfo, SerializeGroup.Admin] })
+  @Get('admin/pickup')
+  findDeliveryPickupAdmin(@GetRequestPayload() payload: RequestPayload) {
+    return this.deliveryService.findByType({ type: DeliveryTypes.pickup }, payload)
+  }
+
   @SerializeOptions({ groups: [SerializeGroup.Info, SerializeGroup.Translate] })
   @Get('courier')
   findDeliveryCourier(@GetRequestPayload() payload: RequestPayload) {
+    return this.deliveryService.findByType({ type: DeliveryTypes.courier }, payload)
+  }
+  
+  @SerializeOptions({ groups: [SerializeGroup.AdminInfo, SerializeGroup.Admin] })
+  @Get('admin/courier')
+  findDeliveryCourierAdmin(@GetRequestPayload() payload: RequestPayload) {
     return this.deliveryService.findByType({ type: DeliveryTypes.courier }, payload)
   }
 }

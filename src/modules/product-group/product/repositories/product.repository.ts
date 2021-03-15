@@ -10,6 +10,9 @@ import { ProductStatus } from '../product.types';
 import { ProductCategoryRepository } from '../../product-category/repositories/category.repository';
 import { ProductCategory } from '../../product-category';
 import { BadRequestException } from '@nestjs/common';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+
 @EntityRepository(Product)
 export class ProductRepository extends DefaultRepository<Product> {
     public name = ProductName
@@ -22,15 +25,48 @@ export class ProductRepository extends DefaultRepository<Product> {
     }
     // populate(query: SelectQueryBuilder<Product>, payload: RequestPayload) {
     //     const groups = payload.getGroups()
-    //     if(groups.includes(SerializeGroup.AdminFull) ) {
+    //     if (groups.includes(SerializeGroup.AdminFull)) {
     //         return super.populate(query, payload)
     //     }
-    //     query.leftJoinAndSelect(`${this.name}.category`, 'category')
+    //     const eagerRel = query.expressionMap.mainAlias!.metadata.eagerRelations
+    //     // const recursiveJoin = (relations: Array<any>, alias: string) => {
+    //     //     relations.map(rel => {
+    //     //         const propertyPath = rel.propertyPath
+    //     //         const path = alias + '.' + propertyPath
+    //     //         const relationAlias = query.connection.namingStrategy.eagerJoinRelationAlias(alias, propertyPath);
+    //     //         query.leftJoinAndSelect(path, relationAlias)
+    //     //         console.log(path)
+    //     //         recursiveJoin(rel.inverseEntityMetadata.eagerRelations, relationAlias)
+    //     //     })
+    //     // }
+    //     // recursiveJoin(eagerRel, query.alias)
+    //     // writeFileSync(join(__dirname, 'data.json'), JSON.stringify(query.expressionMap.mainAlias!.metadata.eagerRelations))
+    //    /*mbhere*/ query.leftJoinAndSelect(`${this.name}.category`, 'category')
+    //     query.leftJoinAndSelect(`category.locale`, 'categoryLocale')
+    //     query.leftJoinAndSelect(`category.availableFilterAttributes`, 'categoryAvailableFilterAttributes')
+    //     query.leftJoinAndSelect(`categoryAvailableFilterAttributes.locale`, 'categoryAvailableFilterAttributesLocale')
     //     query.leftJoinAndSelect(`${this.name}.prices`, 'prices')
     //     query.leftJoinAndSelect(`${this.name}.locale`, 'locale')
-    //     query.leftJoinAndSelect(`${this.name}.attributes`, 'attributes')
     //     query.leftJoinAndSelect(`${this.name}.defaultImage`, 'defaultImage')
+    //     query.leftJoinAndSelect(`${this.name}.kitProducts`, 'kitProducts')
+    //     query.leftJoinAndSelect(`${this.name}.attendProducts`, 'attendProducts')
+    //     query.leftJoinAndSelect(`${this.name}.cntSale`, 'cntSale')
+    //     query.leftJoinAndSelect(`${this.name}.reviews`, 'reviews')
+    //     query.leftJoinAndSelect(`${this.name}.tags`, 'tags')
+    //     query.leftJoinAndSelect(`tags.locale`, 'tagsLocale')
+    //     query.leftJoinAndSelect(`${this.name}.options`, 'options')
+    //     query.leftJoinAndSelect(`options.values`, 'optionsValues')
+    //     query.leftJoinAndSelect(`options.locale`, 'optionsLocale')
+    //     query.leftJoinAndSelect(`optionsValues.locale`, 'optionsValuesLocale')
+    //     query.leftJoinAndSelect(`optionsValues.prices`, 'optionsValuesPrices')
     //     query.leftJoinAndSelect(`${this.name}.variations`, 'variations')
+    //     query.leftJoinAndSelect(`variations.attributes`, 'varAttrs')
+    //     query.leftJoinAndSelect(`variations.locale`, 'varLocale')
+    //     query.leftJoinAndSelect(`varLocale.description`, 'varLocaleDesc')
+    //     query.leftJoinAndSelect(`variations.prices`, 'varPrices')
+    //     query.leftJoinAndSelect(`variations.images`, 'varImages')
+    //     query.leftJoinAndSelect(`variations.defaultImage`, 'varDefaultImage')
+    //     query.leftJoinAndSelect(`${this.name}.attributes`, 'attributes')
     //     query.leftJoinAndSelect(`attributes.attrValues`, 'attrValues')
     //     query.leftJoinAndSelect(`attributes.attr`, 'attr')
     //     query.leftJoinAndSelect(`attrValues.locale`, 'attrValuesLocale')
